@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Property | Properties{% endblock title %}
+{% block content %}
+  <!-- Start Proerty header  -->
+  <section id="aa-property-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-property-header-inner">
+            <h2>Properties Page</h2>
+            <ol class="breadcrumb">
+            <li><a href="#">HOME</a></li>            
+            <li class="active">PROPERTIES</li>
+          </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> 
+  <!-- End Proerty header  -->
+
+  <!-- Start Properties  -->
+  <section id="aa-properties">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="aa-properties-content">
+            <!-- start properties content head -->
+            <div class="aa-properties-content-head">              
+              <div class="aa-properties-content-head-left">
+                <form action="" class="aa-sort-form">
+                  <label for="">Sort by</label>
+                  <select name="">
+                    <option value="1" selected="Default">Default</option>
+                    <option value="2">Name</option>
+                    <option value="3">Price</option>
+                    <option value="4">Date</option>
+                  </select>
+                </form>
+                <form action="" class="aa-show-form">
+                  <label for="">Show</label>
+                  <select name="">
+                    <option value="1" selected="12">6</option>
+                    <option value="2">12</option>
+                    <option value="3">24</option>
+                  </select>
+                </form>
+              </div>
+              <div class="aa-properties-content-head-right">
+                <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
+                <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>
+              </div>            
+            </div>
+            <!-- Start properties content body -->
+            <div class="aa-properties-content-body">
+              <ul class="aa-properties-nav">
+                {% for property in properties %}
+                  <li>
+                    <article class="aa-properties-item">
+                      <a class="aa-properties-item-img" href="#">
+                        <img alt="img" src="{{property.MainPhoto.url}}">
+                      </a>
+                      {% if property.get_property_status_display == "For Sale" %}
+                        <div class="aa-tag for-sale">
+                          {{property.get_property_status_display}}
+                        </div>
+                      {% endif %}
+                      {% if property.get_property_status_display == "For Rent"%}
+                        <div class="aa-tag for-rent">
+                          {{property.get_property_status_display}}
+                        </div>
+                      {% endif %}
+                      {% if property.get_property_status_display == "Sold Out" %}
+                        <div class="aa-tag sold-out">
+                          {{property.get_property_status_display}}
+                        </div>
+                      {% endif %}
+                      <div class="aa-properties-item-content">
+                        <div class="aa-properties-info">
+                          <span>{{property.bedrooms}} Beds</span>
+                          <span>{{property.bathrooms}} Baths</span>
+                          <span>{{property.sqft}} <var>m<sup>2</sup></var></span>
+                        </div>
+                        <div class="aa-properties-about">
+                          <h3><a href="#">{{property.title}}</a></h3>
+                          <p>{{property.description|slice:":100"}}...</p>                      
+                        </div>
+                        <div class="aa-properties-detial">
+                          <span class="aa-price">
+                            ${{property.price}}
+                          </span>
+                          <a class="aa-secondary-btn" href="#">View Details</a>
+                        </div>
+                      </div>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <!-- Start properties content bottom -->
+            <div class="aa-properties-content-bottom">
+              <nav>
+                {% if is_paginated %}
+                  <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                    <li>
+                      <a href="?page=1" aria-label="First">
+                        <span aria-hidden="true">First</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <li class="active"><a href="?page={{num}}">{{num}}</a></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+                      <li><a href="?page={{num}}">{{num}}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                    <li>
+                      <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span></a>
+                    <li>
+                      <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">Last</span></a>
+                  {% endif %}
+                {% endif %}
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- Start properties sidebar -->
+        <div class="col-md-4">
+          <aside class="aa-properties-sidebar">
+            <!-- Start Single properties sidebar -->
+            <div class="aa-properties-single-sidebar">
+              <h3>Properties Search</h3>
+              <form action="">
+                <div class="aa-single-advance-search">
+                  <input type="text" placeholder="Type Your Location">
+                </div>
+                <div class="aa-single-advance-search">
+                  <select id="" name="">
+                   <option selected="" value="0">Category</option>
+                    <option value="1">Flat</option>
+                    <option value="2">Land</option>
+                    <option value="3">Plot</option>
+                    <option value="4">Commercial</option>
+                  </select>
+                </div>
+                <div class="aa-single-advance-search">
+                  <select id="" name="">
+                    <option selected="" value="0">Type</option>
+                    <option value="1">Flat</option>
+                    <option value="2">Land</option>
+                    <option value="3">Plot</option>
+                    <option value="4">Commercial</option>
+                  </select>
+                </div>
+                <div class="aa-single-advance-search">
+                  <select id="" name="">
+                    <option selected="" value="0">Type</option>
+                    <option value="1">Flat</option>
+                    <option value="2">Land</option>
+                    <option value="3">Plot</option>
+                    <option value="4">Commercial</option>
+                  </select>
+                </div>
+                <div class="aa-single-filter-search">
+                  <span>AREA (SQ)</span>
+                  <span>FROM</span>
+                  <span id="skip-value-lower" class="example-val">30.00</span>
+                  <span>TO</span>
+                  <span id="skip-value-upper" class="example-val">100.00</span>
+                  <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                  </div>                  
+                </div>
+                <div class="aa-single-filter-search">
+                  <span>PRICE ($)</span>
+                  <span>FROM</span>
+                  <span id="skip-value-lower2" class="example-val">30.00</span>
+                  <span>TO</span>
+                  <span id="skip-value-upper2" class="example-val">100.00</span>
+                  <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                  </div>      
+                </div>
+                <div class="aa-single-advance-search">
+                  <input type="submit" value="Search" class="aa-search-btn">
+                </div>
+              </form>
+            </div> 
+            <!-- Start Single properties sidebar -->
+            <div class="aa-properties-single-sidebar">
+              <h3>Populer Properties</h3>
+              <div class="media">
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>                
+                  <span>$65000</span>
+                </div>              
+              </div>
+              <div class="media">
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>                
+                  <span>$65000</span>
+                </div>              
+              </div>
+              <div class="media">
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>                
+                  <span>$65000</span>
+                </div>              
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- / Properties  -->
+{% endblock content%}
