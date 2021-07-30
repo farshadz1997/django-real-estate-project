@@ -1,8 +1,131 @@
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>Home Property | Home</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
 
-{% block title %}Home Property | Home{% endblock title %}
-{% block content %}
+    <!-- Font awesome -->
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet">   
+    <!-- slick slider -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}">
+    <!-- price picker slider -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nouislider.css' %}">
+    <!-- Fancybox slider -->
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.css' %}" type="text/css" media="screen" /> 
+    <!-- Theme color -->
+    <link id="switcher" href="{% static 'css/theme-color/default-theme.css' %}" rel="stylesheet">     
+
+    <!-- Main style sheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">    
+
+   
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body class="aa-price-range">  
+  <!-- Pre Loader -->
+  <div id="aa-preloader-area">
+    <div class="pulse"></div>
+  </div>
+  <!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
+  <!-- END SCROLL TOP BUTTON -->
+
+  <!-- Start header section -->
+  <header id="aa-header">  
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-header-area">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="aa-header-left">
+                  <div class="aa-telephone-no">
+                    <span class="fa fa-phone"></span>
+                    1-900-523-3564
+                  </div>
+                  <div class="aa-email hidden-xs">
+                    <span class="fa fa-envelope-o"></span> info@markups.com
+                  </div>
+                </div>              
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="aa-header-right">
+                  <a href="register.html" class="aa-register">Register</a>
+                  <a href="signin.html" class="aa-login">Login</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- End header section -->
+
+  <!-- Start menu section -->
+  <section id="aa-menu-area">
+    <nav class="navbar navbar-default main-navbar" role="navigation">  
+      <div class="container">
+        <div class="navbar-header">
+          <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- LOGO -->                                               
+          <!-- Text based logo -->
+           <a class="navbar-brand aa-logo" href="index.html"> Home <span>Property</span></a>
+           <!-- Image based logo -->
+           <!-- <a class="navbar-brand aa-logo-img" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
+            <li class="active"><a href="index.html">HOME</a></li>
+             <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="properties.html">PROPERTIES <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">                
+                <li><a href="properties.html">PROPERTIES</a></li>
+                <li><a href="properties-detail.html">PROPERTIES DETAIL</a></li>                                            
+              </ul>
+            </li>
+            <li><a href="gallery.html">GALLERY</a></li>                                         
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="blog-archive.html">BLOG <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">                
+                <li><a href="blog-archive.html">BLOG</a></li>
+                <li><a href="blog-single.html">BLOG DETAILS</a></li>                                            
+              </ul>
+            </li>
+            <li><a href="contact.html">CONTACT</a></li>
+           <li><a href="404.html">404 PAGE</a></li>
+          </ul>                            
+        </div><!--/.nav-collapse -->       
+      </div>          
+    </nav> 
+  </section>
+  <!-- End menu section -->
+
   <!-- Start slider  -->
   <section id="aa-slider">
     <div class="aa-slider-area"> 
@@ -25,7 +148,7 @@
         <!-- / Top slider single slide -->
         <!-- Top slider single slide -->
         <div class="aa-top-slider-single">
-          <img src="{% static 'img/slider/2.jpg' %}" alt="img">
+          <img src="img/slider/2.jpg" alt="img">
           <!-- Top slider content -->
           <div class="aa-top-slider-content">
             <span class="aa-top-slider-catg">Duplex</span>
@@ -40,7 +163,7 @@
         <!-- / Top slider single slide -->
         <!-- Top slider single slide -->
         <div class="aa-top-slider-single">
-          <img src="{% static 'img/slider/1.jpg' %}" alt="img">
+          <img src="img/slider/1.jpg" alt="img">
           <!-- Top slider content -->
           <div class="aa-top-slider-content">
             <span class="aa-top-slider-catg">Duplex</span>
@@ -85,7 +208,7 @@
         <!-- / Top slider single slide -->
          <!-- Top slider single slide -->
         <div class="aa-top-slider-single">
-          <img src="{% static 'img/slider/6.jpg' %}" alt="img">
+          <img src="img/slider/6.jpg" alt="img">
           <!-- Top slider content -->
           <div class="aa-top-slider-content">
             <span class="aa-top-slider-catg">Duplex</span>
@@ -235,47 +358,174 @@
         </div>
         <div class="aa-latest-properties-content">
           <div class="row">
-          {% for property in properties %}
             <div class="col-md-4">
               <article class="aa-properties-item">
                 <a href="#" class="aa-properties-item-img">
-                  <img src="{{property.MainPhoto.url}}" alt="{{property.title}}">
+                  <img src="{% static 'img/item/1.jpg' %}" alt="img">
                 </a>
-                {% if property.get_property_status_display == "For Sale" %}
-                  <div class="aa-tag for-sale">
-                    {{property.get_property_status_display}}
-                  </div>
-                {% elif property.get_property_status_display == "For Rent"%}
-                  <div class="aa-tag for-rent">
-                    {{property.get_property_status_display}}
-                  </div>
-                {% else %}
-                  <div class="aa-tag sold-out">
-                    {{property.get_property_status_display}}
-                  </div>
-                {% endif %}
+                <div class="aa-tag for-sale">
+                  For Sale
+                </div>
                 <div class="aa-properties-item-content">
                   <div class="aa-properties-info">
-                    
-                    <span>{{property.bedrooms}} Beds</span>
-                    <span>{{property.bathrooms}} Baths</span>
-                    <span>{{property.sqft}}<var>m<sup>2</sup></var></span>
-                    <span>City: {{property.city}}</span>
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
                   </div>
                   <div class="aa-properties-about">
-                    <h3><a href="{% url 'Properties-Detail' property.id %}">{{property.title}}</a></h3>
-                    <p>{{property.description|slice:":100"}}...</p>                      
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
                   </div>
                   <div class="aa-properties-detial">
                     <span class="aa-price">
-                      ${{property.price}}
+                      $35000
                     </span>
-                    <a href="{% url 'Properties-Detail' property.id %}" class="aa-secondary-btn">View Details</a>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
                   </div>
                 </div>
               </article>
             </div>
-          {% endfor %}
+            <div class="col-md-4">
+              <article class="aa-properties-item">
+                <a href="#" class="aa-properties-item-img">
+                  <img src="{% static 'img/item/2.jpg' %}" alt="img">
+                </a>
+                <div class="aa-tag for-rent">
+                  For Rent
+                </div>
+                <div class="aa-properties-item-content">
+                  <div class="aa-properties-info">
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
+                  </div>
+                  <div class="aa-properties-about">
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
+                  </div>
+                  <div class="aa-properties-detial">
+                    <span class="aa-price">
+                      $11000
+                    </span>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-4">
+              <article class="aa-properties-item">
+                <a href="#" class="aa-properties-item-img">
+                  <img src="{% static 'img/item/3.jpg' %}" alt="img">
+                </a>
+                <div class="aa-tag sold-out">
+                  Sold Out
+                </div>
+                <div class="aa-properties-item-content">
+                  <div class="aa-properties-info">
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
+                  </div>
+                  <div class="aa-properties-about">
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
+                  </div>
+                  <div class="aa-properties-detial">
+                    <span class="aa-price">
+                      $15000
+                    </span>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-4">
+              <article class="aa-properties-item">
+                <a href="#" class="aa-properties-item-img">
+                  <img src="{% static 'img/item/4.jpg' %}" alt="img">
+                </a>
+                <div class="aa-tag for-sale">
+                  For Sale
+                </div>
+                <div class="aa-properties-item-content">
+                  <div class="aa-properties-info">
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
+                  </div>
+                  <div class="aa-properties-about">
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
+                  </div>
+                  <div class="aa-properties-detial">
+                    <span class="aa-price">
+                      $35000
+                    </span>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-4">
+              <article class="aa-properties-item">
+                <a href="#" class="aa-properties-item-img">
+                  <img src="{% static 'img/item/5.jpg' %}" alt="img">
+                </a>                
+                <div class="aa-tag sold-out">
+                  Sold Out
+                </div>
+                <div class="aa-properties-item-content">
+                  <div class="aa-properties-info">
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
+                  </div>
+                  <div class="aa-properties-about">
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
+                  </div>
+                  <div class="aa-properties-detial">
+                    <span class="aa-price">
+                      $11000
+                    </span>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-4">
+              <article class="aa-properties-item">
+                <a href="#" class="aa-properties-item-img">
+                  <img src="{% static 'img/item/6.jpg' %}" alt="img">
+                </a>
+                <div class="aa-tag for-rent">
+                  For Rent
+                </div>
+                <div class="aa-properties-item-content">
+                  <div class="aa-properties-info">
+                    <span>5 Rooms</span>
+                    <span>2 Beds</span>
+                    <span>3 Baths</span>
+                    <span>1100 SQ FT</span>
+                  </div>
+                  <div class="aa-properties-about">
+                    <h3><a href="#">Appartment Title</a></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>                      
+                  </div>
+                  <div class="aa-properties-detial">
+                    <span class="aa-price">
+                      $15000
+                    </span>
+                    <a href="#" class="aa-secondary-btn">View Details</a>
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -543,7 +793,7 @@
                 <li>
                   <div class="aa-testimonial-single">
                     <div class="aa-testimonial-img">
-                      <img src="{% static 'img/testimonial-1.png' %}" alt="testimonial img">
+                      <img src="img/testimonial-1.png" alt="testimonial img">
                     </div>
                     <div class="aa-testimonial-info">
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate consequuntur ducimus cumque iure modi nesciunt recusandae eligendi vitae voluptatibus, voluptatum tempore, ipsum nisi perspiciatis. Rerum nesciunt fuga ab natus, dolorem?</p>
@@ -600,52 +850,52 @@
             <ul class="aa-client-brand-slider">
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-1.png' %}" alt="brand image">
+                  <img src="img/client-brand-1.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-2.png' %}" alt="brand image">
+                  <img src="img/client-brand-2.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-3.png' %}" alt="brand image">
+                  <img src="img/client-brand-3.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-5.png' %}" alt="brand image">
+                  <img src="img/client-brand-5.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-4.png' %}" alt="brand image">
+                  <img src="img/client-brand-4.png" alt="brand image">
                 </div>
               </li>
                <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-1.png' %}" alt="brand image">
+                  <img src="img/client-brand-1.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-2.png' %}" alt="brand image">
+                  <img src="img/client-brand-2.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-3.png' %}" alt="brand image">
+                  <img src="img/client-brand-3.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-5.png' %}" alt="brand image">
+                  <img src="img/client-brand-5.png" alt="brand image">
                 </div>
               </li>
               <li>
                 <div class="aa-client-single-brand">
-                  <img src="{% static 'img/client-brand-4.png' %}" alt="brand image">
+                  <img src="img/client-brand-4.png" alt="brand image">
                 </div>
               </li>
             </ul>
@@ -673,7 +923,7 @@
                 <div class="col-md-4">
                   <article class="aa-blog-single">
                     <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-1.jpg' %}" alt="img"></a>
+                      <a href="#"><img src="img/blog-img-1.jpg" alt="img"></a>
                       <span class="aa-date-tag">15 April, 16</span>
                     </figure>
                     <div class="aa-blog-single-content">
@@ -691,7 +941,7 @@
                 <div class="col-md-4">
                   <article class="aa-blog-single">
                     <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-2.jpg' %}" alt="img"></a>
+                      <a href="#"><img src="img/blog-img-2.jpg" alt="img"></a>
                       <span class="aa-date-tag">15 April, 16</span>
                     </figure>
                     <div class="aa-blog-single-content">
@@ -708,7 +958,7 @@
                 <div class="col-md-4">
                   <article class="aa-blog-single">
                     <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-3.jpg' %}" alt="img"></a>
+                      <a href="#"><img src="img/blog-img-3.jpg" alt="img"></a>
                       <span class="aa-date-tag">15 April, 16</span>
                     </figure>
                     <div class="aa-blog-single-content">
@@ -729,4 +979,61 @@
     </div>
   </section>
   <!-- / Latest blog -->
-{% endblock %}
+
+  <!-- Footer -->
+  <footer id="aa-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+        <div class="aa-footer-area">
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="aa-footer-left">
+               <p>Designed by <a rel="nofollow" href="http://www.markups.io/">MarkUps.io</a></p>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="aa-footer-middle">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-google-plus"></i></a>
+                <a href="#"><i class="fa fa-youtube"></i></a>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="aa-footer-right">
+                <a href="#">Home</a>
+                <a href="#">Support</a>
+                <a href="#">License</a>
+                <a href="#">FAQ</a>
+                <a href="#">Privacy & Term</a>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </footer>
+  <!-- / Footer -->
+
+ 
+  
+  <!-- jQuery library -->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+  <script src="js/jquery.min.js"></script>   
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.js"></script>   
+  <!-- slick slider -->
+  <script type="text/javascript" src="{% static 'js/slick.js' %}"></script>
+  <!-- Price picker slider -->
+  <script type="text/javascript" src="{% static 'js/nouislider.js' %}"></script>
+   <!-- mixit slider -->
+  <script type="text/javascript" src="{% static 'js/jquery.mixitup.js' %}"></script>
+  <!-- Add fancyBox -->        
+  <script type="text/javascript" src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+  <!-- Custom js -->
+  <script src="js/custom.js"></script> 
+
+  </body>
+</html>
