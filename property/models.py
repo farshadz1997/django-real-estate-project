@@ -9,16 +9,17 @@ class Property(models.Model):
         ('SL', 'Sold Out')
     ]
     title = models.CharField(max_length=255, verbose_name = "Title", help_text = "Title of the property")
-    property_status = models.CharField(max_length = 2, choices = property_choices)
-    address = models.CharField(max_length=255)
+    property_status = models.CharField(max_length = 2, choices = property_choices, verbose_name = "Property status")
+    address = models.CharField(max_length=255, verbose_name = "Address")
     state = models.CharField(max_length=255, verbose_name = "State")
-    city = models.CharField(max_length=255)
+    city = models.CharField(max_length=255, verbose_name = "City")
     description = models.TextField(blank = True, verbose_name = 'Description')
+    category = models.ForeignKey("Category", related_name = "property", verbose_name = "Category", on_delete = models.CASCADE, blank = True, null=True)
     price = models.IntegerField(verbose_name = 'Price')
     bedrooms = models.IntegerField(verbose_name = 'Bedrooms')
     bathrooms = models.DecimalField(max_digits = 2, decimal_places = 1, verbose_name = 'Bathrooms')
     garage = models.IntegerField(default = 0, verbose_name = 'Garage')
-    sqft = models.IntegerField(verbose_name = "Area", blank = False, null = False)
+    sqft = models.IntegerField(verbose_name = "Area")
     MainPhoto = models.ImageField(upload_to = "Properties/")
     photo_1 = models.ImageField(upload_to = "Properties/", blank = True, null = True)
     photo_2 = models.ImageField(upload_to = "Properties/", blank = True, null = True)
@@ -40,4 +41,13 @@ class Property(models.Model):
     def get_absolute_url(self):
         return reverse('Properties-Detail', kwargs={'pk': self.pk})
     
+class Category(models.Model):
+    title = models.CharField(verbose_name = "Title", max_length = 50)
+    slug = models.SlugField(verbose_name = "Slug")
+    
+    class Meta:
+        verbose_name_plural = "Categories"
+        
+    def __str__(self):
+        return self.title 
     

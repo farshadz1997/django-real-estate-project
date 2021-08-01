@@ -107,44 +107,42 @@
   <section id="aa-advance-search">
     <div class="container">
       <div class="aa-advance-search-area">
-        <div class="form">
+        <form method="GET" action="{% url 'Search'%}">
          <div class="aa-advance-search-top">
             <div class="row">
               <div class="col-md-4">
                 <div class="aa-single-advance-search">
-                  <input type="text" placeholder="Type Your Location">
+                  <input type="text" placeholder="Type Your Location" name='location' value="{{ request.GET.location }}">
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="aa-single-advance-search">
-                  <select>
-                   <option value="0" selected>Category</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
+                  <select name="category">
+                    {% if request.GET.category %}
+                    <option value="{{request.GET.category}}">{{request.GET.category.title}}</option>
+                    {% endif %}
+                    <option value="">Category</option>
+                    {% for cat in categories %}
+                      {% if not request.GET.category.title == cat.title %}
+                      <option value="{{cat.slug}}">{{cat.title}}</option>
+                      {% endif %}
+                    {% endfor %}
                   </select>
                 </div>
               </div>
               <div class="col-md-2">
                  <div class="aa-single-advance-search">
-                  <select>
-                    <option value="0" selected>Type</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
+                  <select name="look_for">
+                  <option value="">Look For</option>
+                  <option value="FS">For Sale</option>
+                  <option value="FR">For Rent</option>
+                  <option value="SL">Sold Out</option>
                   </select>
               </div>
               </div>
               <div class="col-md-2">
                  <div class="aa-single-advance-search">
                   <select>
-                    <option value="0" selected>Type</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
                   </select>
               </div>
               </div>
@@ -181,7 +179,7 @@
             </div>
           </div>  
          </div>
-        </div>
+        </form>
       </div>
     </div>
   </section>

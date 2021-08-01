@@ -1,0 +1,79 @@
+<div class="col-md-4">
+    <aside class="aa-properties-sidebar">
+    <!-- Start Single properties sidebar -->
+    <div class="aa-properties-single-sidebar">
+        <h3>Properties Search</h3>
+        <form action="{% url 'Search' %}" method='GET'>
+        <div class="aa-single-advance-search">
+            <input type="text" placeholder="Type Your Location" name="location" value="{{ request.GET.location }}">
+        </div>
+        <div class="aa-single-advance-search">
+            <select id="" name="category">
+            {% if request.GET.category %}
+            <option value="{{request.GET.category}}">{{request.GET.category.title}}</option>
+            {% endif %}
+            <option value="">Category</option>
+            {% for cat in categories %}
+                {% if not request.GET.category.title == cat.title %}
+                <option value="{{cat.slug}}">{{cat.title}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+        </div>
+        <div class="aa-single-advance-search">
+            <select id="" name="look_for">
+            {% if request.GET.look_for %}
+                {% if request.GET.look_for == "FS" %}<option value="FS">For Sale</option>
+                {%elif request.GET.look_for == "FR"%}<option value="FR">For Rent</option>
+                {%elif request.GET.look_for == "SL"%}<option value="SL">Sold Out</option>
+                {%else%}<option value="">Look For</option>{%endif%}
+            {% endif %}
+            {% if not request.GET.look_for == ""%}<option value="">Look For</option>{% endif %}
+            {% if not request.GET.look_for == "FS"%}<option value="FS">For Sale</option>{% endif %}
+            {% if not request.GET.look_for == "FR"%}<option value="FR">For Rent</option>{% endif %}
+            {% if not request.GET.look_for == "SL"%}<option value="SL">Sold Out</option>{% endif %}
+            </select>
+        </div>
+        <div class="aa-single-filter-search">
+            <span>AREA <var>m<sup>2</sup></var></span>
+            <span>FROM</span>
+            <span id="skip-value-lower" class="example-val">200.00</span>
+            <span>TO</span>
+            <span id="skip-value-upper" class="example-val">100.00</span>
+            <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+            </div>                  
+        </div>
+        <div class="aa-single-filter-search">
+            <span>PRICE ($)</span>
+            <span>FROM</span>
+            <span id="skip-value-lower2" class="example-val">30.00</span>
+            <span>TO</span>
+            <span id="skip-value-upper2" class="example-val">100.00</span>
+            <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+            </div>      
+        </div>
+        <div class="aa-single-advance-search">
+            <input type="submit" value="Search" class="aa-search-btn">
+        </div>
+        </form>
+    </div> 
+    <!-- Start Single properties sidebar -->
+    <div class="aa-properties-single-sidebar">
+        <h3>Popular Properties</h3>
+        {% for pp in popular_properties %}
+        <div class="media">
+            <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="{{pp.MainPhoto.url}}" alt="{{pp.title}}">
+            </a>
+            </div>
+            <div class="media-body">
+            <h4 class="media-heading"><a href="{% url 'Properties-Detail' pp.id %}">{{pp.title}}</a></h4>
+            <p>{{pp.description|slice:":55"}}...</p>                
+            <span>${{pp.price}}</span>
+            </div>              
+        </div>
+        {% endfor %}
+    </div>
+    </aside>
+</div>

@@ -105,7 +105,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
             <li class="{% if request.resolver_match.url_name == "Home-Page" %}active{% endif %}"><a href="{% url 'Home-Page' %}">HOME</a></li>
-            <li class="{% if request.resolver_match.url_name == "Properties-List" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>
+            <li class="{% if request.resolver_match.url_name == "Properties-List" or "Search" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>
             <li><a href="gallery.html">GALLERY</a></li>                                         
             <li><a href="blog-archive.html">BLOGS</a></li>
             <li><a href="contact.html">CONTACT</a></li>

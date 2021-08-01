@@ -11,7 +11,7 @@
           <div class="aa-property-header-inner">
             <h2>Properties Page</h2>
             <ol class="breadcrumb">
-            <li><a href="#">HOME</a></li>            
+            <li><a href="">HOME</a></li>            
             <li class="active">PROPERTIES</li>
           </ol>
           </div>
@@ -141,85 +141,8 @@
           </div>
         </div>
         <!-- Start properties sidebar -->
-        <div class="col-md-4">
-          <aside class="aa-properties-sidebar">
-            <!-- Start Single properties sidebar -->
-            <div class="aa-properties-single-sidebar">
-              <h3>Properties Search</h3>
-              <form action="">
-                <div class="aa-single-advance-search">
-                  <input type="text" placeholder="Type Your Location">
-                </div>
-                <div class="aa-single-advance-search">
-                  <select id="" name="">
-                   <option selected="" value="0">Category</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
-                  </select>
-                </div>
-                <div class="aa-single-advance-search">
-                  <select id="" name="">
-                    <option selected="" value="0">Type</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
-                  </select>
-                </div>
-                <div class="aa-single-advance-search">
-                  <select id="" name="">
-                    <option selected="" value="0">Type</option>
-                    <option value="1">Flat</option>
-                    <option value="2">Land</option>
-                    <option value="3">Plot</option>
-                    <option value="4">Commercial</option>
-                  </select>
-                </div>
-                <div class="aa-single-filter-search">
-                  <span>AREA (SQ)</span>
-                  <span>FROM</span>
-                  <span id="skip-value-lower" class="example-val">30.00</span>
-                  <span>TO</span>
-                  <span id="skip-value-upper" class="example-val">100.00</span>
-                  <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                  </div>                  
-                </div>
-                <div class="aa-single-filter-search">
-                  <span>PRICE ($)</span>
-                  <span>FROM</span>
-                  <span id="skip-value-lower2" class="example-val">30.00</span>
-                  <span>TO</span>
-                  <span id="skip-value-upper2" class="example-val">100.00</span>
-                  <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                  </div>      
-                </div>
-                <div class="aa-single-advance-search">
-                  <input type="submit" value="Search" class="aa-search-btn">
-                </div>
-              </form>
-            </div> 
-            <!-- Start Single properties sidebar -->
-            <div class="aa-properties-single-sidebar">
-              <h3>Populer Properties</h3>
-              {% for pp in popular_properties %}
-                <div class="media">
-                  <div class="media-left">
-                    <a href="#">
-                      <img class="media-object" src="{{pp.MainPhoto.url}}" alt="{{pp.title}}">
-                    </a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading"><a href="{% url 'Properties-Detail' pp.id %}">{{pp.title}}</a></h4>
-                    <p>{{pp.description|slice:":55"}}...</p>                
-                    <span>${{pp.price}}</span>
-                  </div>              
-                </div>
-              {% endfor %}
-            </div>
-          </aside>
-        </div>
+        {% include 'property/sidebar.html' %}
+        <!-- End properties sidebar -->
       </div>
     </div>
   </section>
