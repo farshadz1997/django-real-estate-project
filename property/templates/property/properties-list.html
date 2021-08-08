@@ -30,21 +30,34 @@
             <!-- start properties content head -->
             <div class="aa-properties-content-head">              
               <div class="aa-properties-content-head-left">
-                <form action="" class="aa-sort-form">
+                <form class="aa-sort-form" action="" method="GET" id='form1'>
                   <label for="">Sort by</label>
-                  <select name="">
-                    <option value="1" selected="Default">Default</option>
-                    <option value="2">Name</option>
-                    <option value="3">Price</option>
-                    <option value="4">Date</option>
+                  <select name="sort_by" onchange="this.form.submit()">
+                  {%if request.GET.sort_by%}
+                    <option value="{{current_order}}">{{request.GET.sort_by}}</option>
+                    {%ifnotequal current_order 'Date'%}<option value="Date">Date</option>{%endifnotequal%}
+                    {%ifnotequal current_order 'Name'%}<option value="Name">Name</option>{%endifnotequal%}
+                    {%ifnotequal current_order 'Price'%}<option value="Price">Price</option>{%endifnotequal%}
+                  {%else%}
+                    <option value="Date">Date</option>
+                    <option value="Name">Name</option>
+                    <option value="Price">Price</option>
+                  {%endif%}
                   </select>
                 </form>
-                <form action="" class="aa-show-form">
+                <form action="" class="aa-show-form" method="GET" id='form2'>
                   <label for="">Show</label>
-                  <select name="">
-                    <option value="1" selected="12">6</option>
-                    <option value="2">12</option>
-                    <option value="3">24</option>
+                  <select name="paginate_by" onchange="this.form.submit()">
+                    {%if request.GET.paginate_by%}
+                      <option value="{{current_pagination}}">{{current_pagination}}</option>
+                      {%ifnotequal current_pagination '6'%}<option value="6">6</option>{%endifnotequal%}
+                      {%ifnotequal current_pagination '12'%}<option value="12">12</option>{%endifnotequal%}
+                      {%ifnotequal current_pagination '24'%}<option value="24">24</option>{%endifnotequal%}
+                    {%else%}
+                      <option value="6">6</option>
+                      <option value="12">12</option>
+                      <option value="24">24</option>
+                    {%endif%}
                   </select>
                 </form>
               </div>
@@ -105,33 +118,63 @@
               <nav>
                 {% if is_paginated %}
                   <ul class="pagination">
-                  {% if page_obj.has_previous %}
-                    <li>
-                      <a href="?page=1" aria-label="First">
-                        <span aria-hidden="true">First</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                  {% endif %}
-                  {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                      <li class="active"><a href="?page={{num}}">{{num}}</a></li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-                      <li><a href="?page={{num}}">{{num}}</a></li>
+                  {% if request.GET.sort_by or request.GET.paginate_by%}
+                    {% if page_obj.has_previous %}
+                      <li>
+                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page=1" aria-label="First">
+                          <span aria-hidden="true">First</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.previous_page_number}}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
                     {% endif %}
-                  {% endfor %}
-                  {% if page_obj.has_next %}
-                    <li>
-                      <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span></a>
-                    <li>
-                      <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                        <span aria-hidden="true">Last</span></a>
-                  {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="active"><a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{num}}">{{num}}</a></li>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+                        <li><a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{num}}">{{num}}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li>
+                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.next_page_number}}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span></a>
+                      <li>
+                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.paginator.num_pages}}" aria-label="Last">
+                          <span aria-hidden="true">Last</span></a>
+                    {% endif %}
+                  {%else%}
+                    {% if page_obj.has_previous %}
+                      <li>
+                        <a href="?page=1" aria-label="First">
+                          <span aria-hidden="true">First</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="active"><a href="?page={{num}}">{{num}}</a></li>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+                        <li><a href="?page={{num}}">{{num}}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li>
+                        <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span></a>
+                      <li>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                          <span aria-hidden="true">Last</span></a>
+                    {% endif %}
+                  {%endif%}
                 {% endif %}
                     </a>
                   </li>

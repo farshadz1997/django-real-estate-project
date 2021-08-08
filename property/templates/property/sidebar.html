@@ -3,7 +3,7 @@
     <!-- Start Single properties sidebar -->
     <div class="aa-properties-single-sidebar">
         <h3>Properties Search</h3>
-        <form action="{% url 'Search' %}" method='GET'>
+        <form action="{% url 'Search' %}" method='GET' name="search_form">
         <div class="aa-single-advance-search">
             <input type="text" placeholder="Type Your Location" name="location" value="{{ request.GET.location }}">
         </div>
