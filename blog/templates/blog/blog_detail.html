@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Property | Blog{% endblock title %}
+
+{% block content %}
+  <!-- Start Proerty header  -->
+  <section id="aa-property-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-property-header-inner">
+            <h2>Blog Details</h2>
+            <ol class="breadcrumb">
+            <li><a href="#">HOME</a></li>            
+            <li class="active">Blog Details</li>
+          </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> 
+  <!-- End Proerty header  -->
+
+  <!-- Start Blog  -->
+  <section id="aa-blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-area">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="aa-blog-content">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <article class="aa-blog-single aa-blog-details">
+                        <figure class="aa-blog-img">
+                          <a href="#"><img alt="img" src="{{blog.image.url}}"></a>
+                          <span class="aa-date-tag">{{blog.pub_date|date:"Y b d"}}</span>
+                        </figure>
+                        <div class="aa-blog-single-content">
+                          <h2>{{blog.title}}</h2>
+                          <div class="aa-blog-single-bottom">
+                            <a class="aa-blog-author" href="#"><i class="fa fa-user"></i>{{blog.author}}</a>
+                            <a class="aa-blog-comments" href="#"><i class="fa fa-comment-o">{{comments.num_comments}}</i></a>
+                          </div>
+                          <p>{{blog.content|safe}}</p> 
+                        </div>                   
+                      </article>
+                    </div>
+                    <!-- Post tags -->
+                    <div class="col-md-12">
+                      <div class="aa-blog-post-tag">
+                        <ul>
+                          <li>TAGS:</li>
+                          {% for tag in tags %}
+                          <li><a href="#">{{tag}},</a></li> 
+                          {% endfor %}                        
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- Social Share -->
+                    <div class="col-md-12">
+                      <div class="aa-properties-social">
+                       <ul>
+                         <li>Share</li>
+                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                         <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                       </ul>
+                     </div>
+                    </div>
+                    <!-- post navigation -->
+                    <div class="col-md-12">
+                      <div class="aa-blog-navigation">
+                        <div class="aa-blog-pagination-left">
+                          <a href="{{blog.get_previous_by_pub_date.get_absolute_url}}" class="aa-prev">
+                            <span class="fa fa-angle-double-left">                            
+                            </span>
+                            PREV
+                          </a>
+                        </div>
+                        <div class="aa-blog-pagination-right">
+                          <a href="{{blog.get_next_by_pub_date.get_absolute_url}}" class="aa-next">
+                            NEXT
+                            <span class="fa fa-angle-double-right">                            
+                            </span>
+                          </a>                          
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Related blog post -->
+                    <div class="col-md-12">
+                      <div class="aa-blog-related-post">
+                        <div class="aa-title">
+                          <h2>Related Post</h2>
+                          <span></span>
+                        </div>
+                        <div class="aa-blog-related-post-area">
+                          <div class="row">
+                          {% for post in related_posts %}
+                            <div class="col-md-6 col-sm-6">
+                              <article class="aa-blog-single">
+                                <figure class="aa-blog-img">
+                                  <a href="#"><img src="{{post.image.url}}" alt="img"></a>
+                                  <span class="aa-date-tag">{{post.pub_date|date:"Y b d"}}</span>
+                                </figure>
+                                <div class="aa-blog-single-content">
+                                  <h3><a href="{{post.get_absolute_url}}">{{post.title}}</a></h3>
+                                  <p>{{post.content|safe|slice:":250"}}...</p>
+                                  <div class="aa-blog-single-bottom">
+                                    <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> {{post.author}}</a>
+                                    <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>{{post.comments.count}}</a>
+                                  </div>
+                                </div>                   
+                              </article>
+                            </div>
+                          {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                    <!-- comment threats -->
+                    <div class="col-md-12">
+                      <div class="aa-comments-area">
+                        <h3>{{comments.count}} Comments</h3>
+                        <div class="comments">
+                          <ul class="commentlist">
+                          {% for comment in comments %}
+                            <li>
+                              <div class="media">
+                                <div class="media-left">    
+                                    <img alt="img" src="img/testimonial-1.png" class="media-object news-img">      
+                                </div>
+                                <div class="media-body">
+                                 <h4 class="author-name">{{comment.name}}</h4>
+                                 <span class="comments-date"> {{comment.date|date:"Y b d"}}</span>
+                                 <p>{{comment.comment}}</p>
+                                 <a class="reply-btn" href="#">Reply</a>
+                                </div>
+                              </div>
+                            </li>
+                          {% endfor %}
+                          </ul>
+                          <!-- comments pagination -->
+                          <nav>
+                            <ul class="pagination comments-pagination">
+                              <li>
+                                <a aria-label="Previous" href="#">
+                                  <span aria-hidden="true">«</span>
+                                </a>
+                              </li>
+                              <li><a href="#">1</a></li>
+                              <li><a href="#">2</a></li>
+                              <li><a href="#">3</a></li>
+                              <li><a href="#">4</a></li>
+                              <li><a href="#">5</a></li>
+                              <li>
+                                <a aria-label="Next" href="#">
+                                  <span aria-hidden="true">»</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      </div>
+                    </div>   
+                    <!-- Respond box -->
+                    <div class="col-md-12">
+                      <div id="respond">
+                        <h3 class="reply-title">Leave a Comment</h3>
+                        <form id="commentform" method="POST">
+                          {% csrf_token %}
+                          <p class="comment-notes">
+                            Your email address will not be published. Required fields are marked <span class="required">*</span>
+                          </p>
+                          {{form.as_p}}
+                          {% comment %} <p class="comment-form-author">
+                            <label for="author">Name <span class="required">*</span></label>
+                            <input type="text" required="required" size="30" value="" name="author">
+                          </p>
+                          <p class="comment-form-email">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" required="required" aria-required="true" value="" name="email">
+                          </p>
+                          <p class="comment-form-comment">
+                            <label for="comment">Comment</label>
+                            <textarea required="required" aria-required="true" rows="8" cols="45" name="comment"></textarea>
+                          </p>
+                          <p class="form-allowed-tags">
+                            You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; </code>
+                          </p> {% endcomment %}
+                          <p class="form-submit">
+                            <input type="submit" value="Post Comment" class="aa-browse-btn" name="submit">
+                          </p>        
+                        </form>
+                      </div>
+                    </div>
+                  </div>                                   
+                </div>
+              </div>
+              <!-- Start blog sidebar -->
+              {% include 'blog/sidebar.html' %}
+              <!-- End blog sidebar -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- / Blog  -->
+{% endblock content %}

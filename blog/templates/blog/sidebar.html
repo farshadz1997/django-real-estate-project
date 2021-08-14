@@ -1,0 +1,61 @@
+<div class="col-md-4">
+    <aside class="aa-blog-sidebar">
+        <!-- Start single sidebar -->
+        <div class="aa-blog-sidebar-single">
+            <form action="{% url 'Blog-Search' %}" method="GET">
+                <div class="aa-blog-search">
+                <input class="aa-search-text" type="text" placeholder="Search...">
+                <button class="aa-search-submit" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+                </div>
+            </form>
+        </div>
+        <!-- Start single sidebar -->
+        <div class="aa-blog-sidebar-single">
+            <h3>Categories</h3>
+            <ul class="aa-blog-catg">
+            {% for category in categories %}
+                <li>{{category.title}} <span>{{category.num_blogs}}</span></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <!-- Start single sidebar -->
+        <div class="aa-blog-sidebar-single">
+            <h3>Tags</h3>
+            <div class="tag-cloud">
+            {% for tag in tags %}
+                <a href="#">{{tag.title}}</a>
+            {% endfor %}
+            </div>                    
+        </div>
+        <!-- Start single sidebar -->
+        <div class="aa-blog-sidebar-single">
+            <h3>Recent Post</h3>
+            <div class="aa-blog-recent-post">
+            {% for post in recent_posts %}
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img alt="img" src="{{post.image.url}}" class="media-object">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="#">{{post.title}}</a></h4>
+                        <p>{{post.content|slice:":75"|safe}}...</p>                
+                        <span>{{post.pub_date|date:"Y b d"}}</span>
+                    </div>              
+                </div>
+            {%endfor%}
+            </div>                    
+        </div>
+        <!-- Start single sidebar -->
+        <div class="aa-blog-sidebar-single">
+            <div class="aa-banner-ads">
+                <a href="#">
+                <img src="img/banner-ads.jpg" alt="banner img">
+                </a>
+            </div>                    
+        </div>
+    </aside>
+</div>
