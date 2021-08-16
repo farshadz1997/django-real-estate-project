@@ -98,16 +98,16 @@
           </button>
           <!-- LOGO -->                                               
           <!-- Text based logo -->
-           <a class="navbar-brand aa-logo" href="index.html"> Home <span>Property</span></a>
+           <a class="navbar-brand aa-logo" href="{% url 'Home-Page' %}"> Home <span>Property</span></a>
            <!-- Image based logo -->
            <!-- <a class="navbar-brand aa-logo-img" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
             <li class="{% if request.resolver_match.url_name == "Home-Page" %}active{% endif %}"><a href="{% url 'Home-Page' %}">HOME</a></li>
-            <li class="{% if request.resolver_match.url_name == "Properties-List" or "Search" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>
-            <li><a href="gallery.html">GALLERY</a></li>                                         
-            <li><a href="blog-archive.html">BLOGS</a></li>
+            <li class="{% if request.resolver_match.url_name == "Properties-List" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>
+            <li class="{% if request.resolver_match.url_name == "Gallery" %}active{% endif %}"><a href="{% url 'Gallery' %}">GALLERY</a></li>                                         
+            <li class="{% if request.resolver_match.url_name == "Blogs-List" %}active{% endif %}"><a href="{% url 'Blogs-List' %}">BLOGS</a></li>
             <li><a href="contact.html">CONTACT</a></li>
            <li><a href="404.html">404 PAGE</a></li>
           </ul>                            

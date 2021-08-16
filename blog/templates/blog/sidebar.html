@@ -4,7 +4,7 @@
         <div class="aa-blog-sidebar-single">
             <form action="{% url 'Blog-Search' %}" method="GET">
                 <div class="aa-blog-search">
-                <input class="aa-search-text" type="text" placeholder="Search...">
+                <input class="aa-search-text" type="text" name="q" placeholder="Search...">
                 <button class="aa-search-submit" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
@@ -36,12 +36,12 @@
             {% for post in recent_posts %}
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
+                        <a href="{{post.get_absolute_url}}">
                             <img alt="img" src="{{post.image.url}}" class="media-object">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="#">{{post.title}}</a></h4>
+                        <h4 class="media-heading"><a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
                         <p>{{post.content|slice:":75"|safe}}...</p>                
                         <span>{{post.pub_date|date:"Y b d"}}</span>
                     </div>              
