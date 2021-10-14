@@ -1,4 +1,5 @@
 {% load static %}
+{%load humanize%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,8 +73,13 @@
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="aa-header-right">
-                  <a href="register.html" class="aa-register">Register</a>
-                  <a href="signin.html" class="aa-login">Login</a>
+                {%if user.is_authenticated%}
+                  <a href="{%url 'profile' user.username%}" class="aa-register">{{user.get_username}}</a>
+                  <a href="{%url 'logout'%}" class="aa-login">Log out</a>
+                {%else%}
+                  <a href="{%url 'register'%}" class="aa-register">Register</a>
+                  <a href="{%url 'login'%}" class="aa-login">Login</a>
+                {%endif%}
                 </div>
               </div>
             </div>

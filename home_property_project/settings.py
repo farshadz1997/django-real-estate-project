@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'autoslug',
     'crispy_forms',
     'ckeditor',
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'property.apps.PropertyConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +139,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = 'signing-in'
+LOGIN_URL = 'login'
+
+EMAIL_BAKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER =  os.environ.get('DB_USER') # or email , For security add it to windows environment or env file
+EMAIL_HOST_PASSWORD = os.environ.get('DB_PASS') # password 
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CKEDITOR_CONFIGS = {
     'default': {

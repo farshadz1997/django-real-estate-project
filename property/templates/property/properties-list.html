@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Home Property | Properties{% endblock title %}
 {% block content %}
@@ -103,7 +104,7 @@
                         </div>
                         <div class="aa-properties-detial">
                           <span class="aa-price">
-                            ${{property.price}}
+                            ${{property.price|intcomma}}
                           </span>
                           <a class="aa-secondary-btn" href="{% url 'Properties-Detail' property.id %}">View Details</a>
                         </div>
@@ -116,69 +117,7 @@
             <!-- Start properties content bottom -->
             <div class="aa-properties-content-bottom">
               <nav>
-                {% if is_paginated %}
-                  <ul class="pagination">
-                  {% if request.GET.sort_by or request.GET.paginate_by%}
-                    {% if page_obj.has_previous %}
-                      <li>
-                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page=1" aria-label="First">
-                          <span aria-hidden="true">First</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.previous_page_number}}" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                    {% endif %}
-                    {% for num in page_obj.paginator.page_range %}
-                      {% if page_obj.number == num %}
-                        <li class="active"><a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{num}}">{{num}}</a></li>
-                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-                        <li><a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{num}}">{{num}}</a></li>
-                      {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                      <li>
-                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.next_page_number}}" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span></a>
-                      <li>
-                        <a href="?sort_by={{current_order}}&paginate_by={{current_pagination}}&page={{page_obj.paginator.num_pages}}" aria-label="Last">
-                          <span aria-hidden="true">Last</span></a>
-                    {% endif %}
-                  {%else%}
-                    {% if page_obj.has_previous %}
-                      <li>
-                        <a href="?page=1" aria-label="First">
-                          <span aria-hidden="true">First</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                    {% endif %}
-                    {% for num in page_obj.paginator.page_range %}
-                      {% if page_obj.number == num %}
-                        <li class="active"><a href="?page={{num}}">{{num}}</a></li>
-                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-                        <li><a href="?page={{num}}">{{num}}</a></li>
-                      {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                      <li>
-                        <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span></a>
-                      <li>
-                        <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                          <span aria-hidden="true">Last</span></a>
-                    {% endif %}
-                  {%endif%}
-                {% endif %}
-                    </a>
-                  </li>
-                </ul>
+                {%include 'property/pagination.html'%}
               </nav>
             </div>
           </div>

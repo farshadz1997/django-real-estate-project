@@ -1,0 +1,30 @@
+{%extends 'users/users-base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block title%}Register{%endblock title%}
+{%block content%}
+  <section id="aa-signin">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-signin-area">
+            <div class="aa-signin-form">
+              <div class="aa-signin-form-title">
+                <a class="aa-property-home" href="{%url 'Home-Page'%}">Property Home</a>
+                <h4>Create your account and Stay with us</h4>
+              </div>
+              <form class="contactform" method="POST">                                                 
+                {%csrf_token%}
+                {{form|crispy}}
+                <div class="aa-single-submit">
+                  <input type="submit" value="Create Account" name="submit">                    
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%endblock content%}

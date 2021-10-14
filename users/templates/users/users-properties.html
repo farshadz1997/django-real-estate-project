@@ -1,0 +1,95 @@
+{%extends 'base.html' %}
+{%load static %}
+{%load crispy_forms_tags %}
+{%block title%}Home Property | Profile{%endblock title%}
+{%block content %}
+    <!-- Start Proerty header  -->
+    <section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <div class="aa-property-header-inner">
+            <h2>User Dashboard</h2>
+            <ol class="breadcrumb">
+            <li><a href="#">Users</a></li>            
+            <li class="active">Dashboard</li>
+            </ol>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section> 
+    <!-- End Proerty header  -->
+    <section id="aa-properties">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="aa-properties-content">
+                        <div class="aa-properties-content-body">
+                            <ul class="aa-properties-nav">
+                                {% for property in properties %}
+                                    <li>
+                                        <article class="aa-properties-item">
+                                            <a class="aa-properties-item-img" href="#">
+                                                <img alt="img" src="{{property.MainPhoto.url}}">
+                                            </a>
+                                            {% if property.get_property_status_display == "For Sale" %}
+                                                <div class="aa-tag for-sale">
+                                                    {{property.get_property_status_display}}
+                                                </div>
+                                            {% endif %}
+                                            {% if property.get_property_status_display == "For Rent"%}
+                                                <div class="aa-tag for-rent">
+                                                    {{property.get_property_status_display}}
+                                                </div>
+                                            {% endif %}
+                                            {% if property.get_property_status_display == "Sold Out" %}
+                                                <div class="aa-tag sold-out">
+                                                    {{property.get_property_status_display}}
+                                                </div>
+                                            {% endif %}
+                                            <div class="aa-properties-item-content">
+                                                <div class="aa-properties-info">
+                                                    <span>{{property.bedrooms}} Beds</span>
+                                                    <span>{{property.bathrooms}} Baths</span>
+                                                    <span>{{property.sqft}} <var>m<sup>2</sup></var></span>
+                                                    <span>City: {{property.city}}</span>
+                                                </div>
+                                                <div class="aa-properties-about">
+                                                    <h3><a href="{% url 'Properties-Detail' property.id %}">{{property.title}}</a></h3>
+                                                    <p>{{property.description|slice:":100"}}...</p>                      
+                                                </div>
+                                                <div class="aa-properties-detial">
+                                                    <span class="aa-price">
+                                                        ${{property.price}}
+                                                    </span>
+                                                    {% if object.author == user %}
+                                                        <div>
+                                                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+                                                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                                                        </div>
+                                                    {% endif %}
+                                                    <a class="aa-secondary-btn" href="{% url 'Properties-Detail' property.id %}">View Details</a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- Start properties content bottom -->
+                        <div class="aa-properties-content-bottom">
+                            <nav>
+                                {%include 'property/pagination.html'%}
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- Start properties sidebar -->
+                {% include 'users/profile-sidebar.html' %}
+                <!-- End properties sidebar -->
+            </div>
+        </div>
+    </section>
+<!-- / Properties  -->
+{%endblock content%}

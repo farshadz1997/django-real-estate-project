@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}Home Property | Home{% endblock title %}
 {% load static %}
 
-{% block title %}Home Property | Home{% endblock title %}
 {% block content %}
   <!-- Start slider  -->
   <section id="aa-slider">
@@ -112,7 +112,11 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="aa-single-advance-search">
+                {%if request.GET.location%}
                   <input type="text" placeholder="Type Your Location" name='location' value="{{ request.GET.location }}">
+                {%else%}
+                  <input type="text" placeholder="Type Your Location" name='location' value="">
+                {%endif%}
                 </div>
               </div>
               <div class="col-md-2">
@@ -134,9 +138,9 @@
                  <div class="aa-single-advance-search">
                   <select name="look_for">
                   <option value="">Look For</option>
-                  <option value="FS">For Sale</option>
-                  <option value="FR">For Rent</option>
-                  <option value="SL">Sold Out</option>
+                  {%for key, value in property_choices.items%}
+                    <option value="{{key}}">{{value}}</option>
+                  {%endfor%}
                   </select>
               </div>
               </div>
@@ -669,57 +673,24 @@
             <div class="aa-latest-blog-content">
               <div class="row">
                 <!-- start single blog -->
-                <div class="col-md-4">
-                  <article class="aa-blog-single">
-                    <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-1.jpg' %}" alt="img"></a>
-                      <span class="aa-date-tag">15 April, 16</span>
-                    </figure>
-                    <div class="aa-blog-single-content">
-                      <h3><a href="#">Lorem ipsum dolor sit amet, consectetur.</a></h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio est quaerat magnam exercitationem voluptas, voluptatem sed quam ab laborum voluptatum tempore dolores itaque, molestias vitae.</p>
-                      <div class="aa-blog-single-bottom">
-                        <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> Admin</a>
-                        <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>6</a>
+                {% for blog in blogs %}
+                  <div class="col-md-4">
+                    <article class="aa-blog-single">
+                      <figure class="aa-blog-img">
+                        <a href="{{blog.get_absolute_url}}"><img src="{{blog.image.url}}" alt="img"></a>
+                        <span class="aa-date-tag">{{blog.pub_date|date:"Y b d"}}</span>
+                      </figure>
+                      <div class="aa-blog-single-content">
+                        <h3><a href="#">{{blog.title}}</a></h3>
+                        <p>{{blog.content|safe|slice:":150"}}...</p>
+                        <div class="aa-blog-single-bottom">
+                          <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> {{blog.author}}</a>
+                          <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>{{blog.comments.count}}</a>
+                        </div>
                       </div>
-                    </div>
-                   
-                  </article>
-                </div>
-                <!-- start single blog -->
-                <div class="col-md-4">
-                  <article class="aa-blog-single">
-                    <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-2.jpg' %}" alt="img"></a>
-                      <span class="aa-date-tag">15 April, 16</span>
-                    </figure>
-                    <div class="aa-blog-single-content">
-                      <h3><a href="#">Lorem ipsum dolor sit amet, consectetur.</a></h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio est quaerat magnam exercitationem voluptas, voluptatem sed quam ab laborum voluptatum tempore dolores itaque, molestias vitae.</p>
-                      <div class="aa-blog-single-bottom">
-                        <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> Admin</a>
-                        <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>6</a>
-                      </div>
-                    </div>                   
-                  </article>
-                </div>
-                <!-- start single blog -->
-                <div class="col-md-4">
-                  <article class="aa-blog-single">
-                    <figure class="aa-blog-img">
-                      <a href="#"><img src="{% static 'img/blog-img-3.jpg' %}" alt="img"></a>
-                      <span class="aa-date-tag">15 April, 16</span>
-                    </figure>
-                    <div class="aa-blog-single-content">
-                      <h3><a href="#">Lorem ipsum dolor sit amet, consectetur.</a></h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio est quaerat magnam exercitationem voluptas, voluptatem sed quam ab laborum voluptatum tempore dolores itaque, molestias vitae.</p>
-                      <div class="aa-blog-single-bottom">
-                        <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> Admin</a>
-                        <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>6</a>
-                      </div>
-                    </div>                   
-                  </article>
-                </div>
+                    </article>
+                  </div>
+                {% endfor %}
               </div>
             </div>
           </div>

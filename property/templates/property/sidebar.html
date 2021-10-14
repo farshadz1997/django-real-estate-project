@@ -1,11 +1,13 @@
+{%load humanize%}
 <div class="col-md-4">
     <aside class="aa-properties-sidebar">
     <!-- Start Single properties sidebar -->
     <div class="aa-properties-single-sidebar">
         <h3>Properties Search</h3>
-        <form action="{% url 'Search' %}" method='GET' name="search_form">
+        <form action="{% url 'Search' %}" method='GET' name='search_form'>
         <div class="aa-single-advance-search">
-            <input type="text" placeholder="Type Your Location" name="location" value="{{ request.GET.location }}">
+            <input type="text" placeholder="Type Your Location" name="location" value={%if request.GET.location%}
+            "{{request.GET.location}}"{%else%}""{%endif%}>
         </div>
         <div class="aa-single-advance-search">
             <select id="" name="category">
@@ -23,15 +25,14 @@
         <div class="aa-single-advance-search">
             <select id="" name="look_for">
             {% if request.GET.look_for %}
-                {% if request.GET.look_for == "FS" %}<option value="FS">For Sale</option>
-                {%elif request.GET.look_for == "FR"%}<option value="FR">For Rent</option>
-                {%elif request.GET.look_for == "SL"%}<option value="SL">Sold Out</option>
-                {%else%}<option value="">Look For</option>{%endif%}
+                {%for key, value in property_choices.items%}
+                    {%ifequal request.GET.look_for key%}<option value="{{key}}">{{value}}</option>{%endifequal%}
+                {%endfor%}
             {% endif %}
-            {% if not request.GET.look_for == ""%}<option value="">Look For</option>{% endif %}
-            {% if not request.GET.look_for == "FS"%}<option value="FS">For Sale</option>{% endif %}
-            {% if not request.GET.look_for == "FR"%}<option value="FR">For Rent</option>{% endif %}
-            {% if not request.GET.look_for == "SL"%}<option value="SL">Sold Out</option>{% endif %}
+            <option value="">Look For</option>
+            {%for key, value in property_choices.items%}
+                {%ifnotequal request.GET.look_for key%}<option value="{{key}}">{{value}}</option>{%endifnotequal%}
+            {%endfor%}
             </select>
         </div>
         <div class="aa-single-filter-search">
@@ -70,7 +71,7 @@
             <div class="media-body">
             <h4 class="media-heading"><a href="{% url 'Properties-Detail' pp.id %}">{{pp.title}}</a></h4>
             <p>{{pp.description|slice:":55"}}...</p>                
-            <span>${{pp.price}}</span>
+            <span>${{pp.price|intcomma}}</span>
             </div>              
         </div>
         {% endfor %}

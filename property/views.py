@@ -1,21 +1,24 @@
-from django.shortcuts import render
+from django.db.models.query import QuerySet
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from .models import Property, Category
+from blog.models import Blog
 from django.db.models import Avg, Max, Min
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
-)
+from django.db.models import Q
+from django.views.generic import ListView, DetailView
+from django.http import Http404
 
 # Create your views here.
 def Home_Page(request):
     properties = Property.objects.all().order_by('-pub_date')[:6] # get last 6 items by publish date
     categories = Category.objects.all()
+    blogs = Blog.objects.all().order_by('-pub_date')[:3]
+    property_choices = dict(Property.property_choices)
     context = {
         "properties": properties,
         "categories": categories,
+        "blogs": blogs,
+        "property_choices": property_choices
     }
     return render(request, 'property/index.html', context)
 
@@ -31,8 +34,11 @@ class PropertiesList(ListView):
         context['popular_properties'] = Property.objects.order_by('-views')[:3]
         context['categories'] = Category.objects.all()
         context['min_max_price'] = Property.objects.aggregate(maximum = Max('price'), minimum = Min('price'))
+        context['property_choices'] = dict(Property.property_choices)
         context['current_order'] = self.request.GET.get('sort_by')
         context['current_pagination'] = self.get_paginate_by(self.paginate_by)
+        get_copy = self.request.GET.copy() 
+        context['parameters'] = get_copy.pop('page', True) and get_copy.urlencode()
         return context
     
     def get_paginate_by(self, queryset):
@@ -51,8 +57,7 @@ class PropertiesList(ListView):
             return ('-pub_date')
         else:
             return self.ordering
- 
-    
+     
 class PropertyDetailView(DetailView):
     model = Property
     template_name = 'property/properties-detail.html'
@@ -63,6 +68,7 @@ class PropertyDetailView(DetailView):
         context['nearby_properties'] = Property.objects.order_by('?').filter(city=self.object.city.lower()).exclude(id=self.object.pk)[:2]
         context['popular_properties'] = Property.objects.order_by('-views').exclude(id=self.object.pk)[:3]
         context['categories'] = Category.objects.all()
+        context['property_choices'] = dict(Property.property_choices)
         return context
     
     def get_object(self):
@@ -70,31 +76,57 @@ class PropertyDetailView(DetailView):
         obj.views += 1
         obj.save()
         return obj
+
+class UserPropertiesListView(ListView):
+    model = Property
+    template_name = 'property/properties-list.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'properties'
+    paginate_by = 6
     
+    def get_queryset(self):
+        user = get_object_or_404(User, username = self.kwargs.get('username'))
+        return Property.objects.filter(author=user).order_by('-pub_date')
 class SearchView(ListView):
     model = Property
     template_name = 'property/properties-list.html'
     context_object_name = 'properties'
-    ordering = ['-pub_date']
+    ordering = '-pub_date'
     paginate_by = 6
     
-    def get_context_data(self, *args, **kwargs):
-        context = super(SearchView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
         context['popular_properties'] = Property.objects.order_by('-views')[:3]
         context['categories'] = Category.objects.all()
         context['current_order'] = self.request.GET.get('sort_by')
         context['current_pagination'] = self.get_paginate_by(self.paginate_by)
+        context['property_choices'] = dict(Property.property_choices)
+        get_copy = self.request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+        location = self.request.GET.get('location')
+        if location != None:
+            context['parameters'] = parameters
+            self.request.session['parameters'] = parameters
+            return context
+        if self.request.GET.get('sort_by'):
+            new_parameters = self.request.session.get('parameters') + '&' + parameters
+            context['parameters'] = new_parameters
+            return context
+        if self.request.GET.get('paginate_by'):
+            new_parameters = self.request.session.get('parameters') + '&' + parameters
+            context['parameters'] = new_parameters
+            return context
+        print(parameters)
+        # context['parameters'] = parameters
         return context
     
     def get_paginate_by(self, queryset):
         if self.request.GET.get("paginate_by") == "":
             return self.paginate_by
-        return self.request.GET.get("paginate_by", self.paginate_by) 
-    
+        return self.request.GET.get("paginate_by", self.paginate_by)
+        
     def get_ordering(self):
         ordering = super(SearchView, self).get_ordering()
         if self.request.GET.get('sort_by') == "Name":
-            self.get_paginate_by(self.paginate_by)
             return ('-title')
         elif self.request.GET.get('sort_by') == "Price":
             return ('-price')
@@ -104,27 +136,29 @@ class SearchView(ListView):
             return self.ordering
     
     def get_queryset(self):
-        location = self.request.GET.get('location')
+        location = self.request.GET.get('location', None)
         category = self.request.GET.get('category')
         look_for = self.request.GET.get('look_for')
-        if location and category and look_for:
-            object_list = Property.objects.filter(city__icontains = location, category__slug = category, property_status = look_for)
-        elif location and category:
-            object_list = Property.objects.filter(city__icontains = location, category__slug = category)
-        elif location and look_for:
-            object_list = Property.objects.filter(city__icontains = location, property_status = look_for)
-        elif category and look_for:
-            object_list = Property.objects.filter(category__slug = category, property_status = look_for)
-        elif look_for:
-            object_list = Property.objects.filter(property_status = look_for)
-        elif location:
-            object_list = Property.objects.filter(city__icontains = location)
-        elif category:
-            object_list = Property.objects.filter(category__slug = category)
+        if location or category or look_for:
+            if look_for == '' and category == '':
+                queryset = Property.objects.filter(Q(city__icontains = location))
+            elif look_for == '':
+                queryset = Property.objects.filter(Q(city__icontains = location) & Q(category__slug = category))
+            elif category == '':
+                queryset = Property.objects.filter(Q(city__icontains = location) & Q(property_status = look_for))
+            else:
+                queryset = Property.objects.filter(Q(city__icontains = location) & Q(category__slug = category) & Q(property_status = look_for))
         else:
-            object_list = Property.objects.all()
-        return object_list
+            queryset = Property.objects.all()
+        return queryset
     
+    def paginate_queryset(self, queryset, page_size):
+        try:
+            return super().paginate_queryset(queryset, page_size)
+        except Http404:
+            self.kwargs['page'] = 1
+            return super().paginate_queryset(queryset, page_size)
+        
 class GalleryView(ListView):
     model = Property
     template_name = 'property/gallery.html'

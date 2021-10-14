@@ -1,0 +1,61 @@
+{%extends 'base.html' %}
+{%load static %}
+{%load crispy_forms_tags %}
+{%block title%}Home Property | Profile{%endblock title%}
+{%block content %}
+    <!-- Start Proerty header  -->
+    <section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <div class="aa-property-header-inner">
+            <h2>User Dashboard</h2>
+            <ol class="breadcrumb">
+            <li><a href="#">Users</a></li>            
+            <li class="active">Dashboard</li>
+            </ol>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section> 
+    <!-- End Proerty header  -->
+    <section id="aa-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="aa-blog-area">
+                        <div class="row">
+                            <div class="col-md-8">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                            {%endif%}
+                                <div class="content-section">
+                                    <form method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <fieldset class="form-group">
+                                        {% if request.resolver_match.url_name == "create-property" %}
+                                            <legend class="border-bottom mb-4">New Property</legend>
+                                        {%else%}
+                                            <legend class="border-bottom mb-4">Update Property</legend>
+                                        {%endif%}
+                                            {{ form|crispy }}
+                                        </fieldset>
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-info" type="submit">Post</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            {%include 'users/profile-sidebar.html'%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock content%}

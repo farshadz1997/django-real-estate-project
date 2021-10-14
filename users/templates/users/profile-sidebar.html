@@ -1,0 +1,18 @@
+<div class="col-md-4">
+    <aside class="aa-blog-sidebar">
+        <div class="aa-blog-sidebar-single">
+            <h3>Panel</h3>
+            <ul class="aa-blog-catg">
+            {%if user.is_authenticated %}
+                <li><a href="{%url 'profile' user.username%}">Profile</a></li>
+                <li><a href="{%url 'user-properties' user.username%}">Your Properties</a></li>
+                <li><a href="{%url 'change-password'%}">Change Password</a></li>
+                <li><a href="{%url 'create-property'%}">Add Property</a></li>
+            {%else%}
+                <li><a href="{%url 'login'%}">Login</a></li>
+                <li><a href="{%url 'register'%}">Register</a></li>
+            {%endif%}
+            </ul>
+        </div>
+    </aside>
+</div>

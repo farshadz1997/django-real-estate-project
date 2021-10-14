@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{%load humanize%}
 
 {% block title %}Property | Details{% endblock %}
 {% block content %}
@@ -30,6 +31,20 @@
           <div class="aa-properties-content">            
             <!-- Start properties content body -->
             <div class="aa-properties-details">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                  {{message}}
+                </div>
+              {% endfor %}
+            {%endif%}
+            {% if property.author == user%}
+              <div>
+                <a href="{% url 'update-property' property.id %}"><button type="button" class="btn btn-secondary">Update</button></a>
+                <a href="{% url 'delete-property' property.id %}"<button type="button" class="btn btn-danger">Delete</button></a>
+              </div>
+              <hr>
+            {%endif%}
              <div class="aa-properties-details-img">
               <img src="{{property.MainPhoto.url}}" alt="img">
               {% if property.photo_1 %}
@@ -55,7 +70,7 @@
                <h2>{{property.title}}</h2>
                <h5>Posted at: {{property.pub_date|date:"Y b d"}}</h5>
                <h5>Views: {{property.views}}</h5>
-               <span class="aa-price">Price: ${{property.price}}</span>
+               <span class="aa-price">Price: ${{property.price|intcomma}}</span>
                <p>{{property.description}}</p>
                <h4>Propery Features</h4>
                <ul>
@@ -118,7 +133,7 @@
                           </div>
                           <div class="aa-properties-detial">
                             <span class="aa-price">
-                              ${{near_p.price}}
+                              ${{near_p.price|intcomma}}
                             </span>
                             <a class="aa-secondary-btn" href="{% url 'Properties-Detail' near_p.id %}">View Details</a>
                           </div>
