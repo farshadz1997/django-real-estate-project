@@ -9,6 +9,11 @@ class Property(models.Model):
         ('FR', 'For Rent'),
         ('SL', 'Sold Out')
     ]
+    STATUS = [
+        ('Nor', 'Normal'),
+        ('Exc', 'Exclusive')
+    ]
+    status = models.CharField(max_length=3, choices=STATUS, default='Nor')
     author = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=255, verbose_name = "Title")
     property_status = models.CharField(max_length = 2, choices = property_choices, verbose_name = "Property status")

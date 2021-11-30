@@ -111,11 +111,9 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
             <li class="{% if request.resolver_match.url_name == "Home-Page" %}active{% endif %}"><a href="{% url 'Home-Page' %}">HOME</a></li>
-            <li class="{% if request.resolver_match.url_name == "Properties-List" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>
-            <li class="{% if request.resolver_match.url_name == "Gallery" %}active{% endif %}"><a href="{% url 'Gallery' %}">GALLERY</a></li>                                         
+            <li class="{% if request.resolver_match.url_name == "Properties-List" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>                                       
             <li class="{% if request.resolver_match.url_name == "Blogs-List" %}active{% endif %}"><a href="{% url 'Blogs-List' %}">BLOGS</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
-           <li><a href="404.html">404 PAGE</a></li>
+            <li class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"><a href="{%url 'contact'%}">CONTACT</a></li>
           </ul>                            
         </div><!--/.nav-collapse -->       
       </div>          
@@ -149,7 +147,7 @@
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-right">
-                <a href="#">Home</a>
+                <a href="{% url 'Home-Page' %}">Home</a>
                 <a href="#">Support</a>
                 <a href="#">License</a>
                 <a href="#">FAQ</a>

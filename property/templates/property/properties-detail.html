@@ -71,17 +71,14 @@
                <h5>Posted at: {{property.pub_date|date:"Y b d"}}</h5>
                <h5>Views: {{property.views}}</h5>
                <span class="aa-price">Price: ${{property.price|intcomma}}</span>
+               <h4>Address: {{property.address}}, {{property.city}}, {{property.state}}</h4>
                <p>{{property.description}}</p>
                <h4>Propery Features</h4>
                <ul>
-                 <li>Area: {{property.sqft}}<var>m<sup>2</sup></var></li>
+                 <li>Area: {{property.sqft}} SQ FT</sup></var></li>
                  <li>{{property.bedrooms}} Bedroom</li>
                  <li>{{property.bathrooms}} Baths</li>
                </ul>
-               <h4>Property Video</h4>
-               <iframe width="100%" height="480" src="https://www.youtube.com/embed/CegXQps0In4" frameborder="0" allowfullscreen></iframe>
-               <h4>Property Map</h4>
-               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6851.201919469417!2d-86.11773906635584!3d33.47324776828677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x888bdb60cc49c571%3A0x40451ca6baf275c7!2s36008+AL-77%2C+Talladega%2C+AL+35160%2C+USA!5e0!3m2!1sbn!2sbd!4v1460452919256" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
              </div>
              <!-- Properties social share -->
              <div class="aa-properties-social">
@@ -124,12 +121,12 @@
                           <div class="aa-properties-info">
                             <span>{{near_p.bedrooms}} Beds</span>
                             <span>{{near_p.bathrooms}} Baths</span>
-                            <span>{{near_p.sqft}}<var>m<sup>2</sup></var></span>
+                            <span>{{near_p.sqft}} SQ FT</span>
                             <span>City: {{near_p.city}}</span>
                           </div>
                           <div class="aa-properties-about">
                             <h3><a href="{% url 'Properties-Detail' near_p.id %}">{{near_p.title}}</a></h3>
-                            <p>{{near_p.description|slice:":100"}}...</p>                      
+                            <p>{{near_p.description|truncatewords:10}}</p>                      
                           </div>
                           <div class="aa-properties-detial">
                             <span class="aa-price">

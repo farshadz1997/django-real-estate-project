@@ -1,3 +1,4 @@
+{%load static%}
 <div class="col-md-4">
     <aside class="aa-blog-sidebar">
         <!-- Start single sidebar -->
@@ -42,7 +43,7 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading"><a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
-                        <p>{{post.content|slice:":75"|safe}}...</p>                
+                        <p>{{post.content|truncatewords:10|safe}}</p>                
                         <span>{{post.pub_date|date:"Y b d"}}</span>
                     </div>              
                 </div>
@@ -53,7 +54,7 @@
         <div class="aa-blog-sidebar-single">
             <div class="aa-banner-ads">
                 <a href="#">
-                <img src="img/banner-ads.jpg" alt="banner img">
+                <img src="{%static 'img/banner-ads.jpg'%}" alt="banner img">
                 </a>
             </div>                    
         </div>

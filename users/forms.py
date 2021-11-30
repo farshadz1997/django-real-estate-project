@@ -36,4 +36,4 @@ class CreatePropertyForm(forms.ModelForm):
     
     class Meta:
         model = Property
-        exclude = ['author', 'views']
+        exclude = ['author', 'views','status']

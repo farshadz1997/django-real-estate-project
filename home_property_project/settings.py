@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'property.apps.PropertyConfig',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'contact.apps.ContactConfig',
 ]
 
 MIDDLEWARE = [

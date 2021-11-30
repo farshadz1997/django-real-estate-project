@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -9,7 +7,6 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreatePr
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
 from property.models import Property
 from django.views.generic import UpdateView, DeleteView
 
@@ -44,7 +41,7 @@ def profile(request, username):
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated')
-            return redirect(reverse('profile'))
+            return redirect(reverse(profile, args=[request.user.username]))
     else:
         u_form = UserUpdateForm(instance = request.user)
         p_form = ProfileUpdateForm(instance = request.user.profile)
@@ -77,7 +74,7 @@ def PropertyCreateView(request):
         if form.is_valid():
             form.save()
             messages.success(request, f'Your property has been listed.')
-            return redirect('profile')
+            return HttpResponseRedirect(reverse(profile, args=[request.user.username]))
     else:
         form = CreatePropertyForm()
     context = {'form': form}
@@ -111,4 +108,4 @@ class PropertyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def get_success_url(self):
         messages.success(self.request, f'Your property has been deleted successfully.')
-        return reverse_lazy('profile')
+        return reverse(profile, args=[self.request.user.username])

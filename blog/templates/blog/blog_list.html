@@ -41,7 +41,7 @@
                         </figure>
                         <div class="aa-blog-single-content">
                           <h3><a href="{% url 'Blog-Detail' blog.id %}">{{blog.title}}</a></h3>
-                          <p>{{blog.content|safe|slice:":100"}}...</p>
+                          <p>{{blog.content|safe|truncatewords:30}}</p>
                           <div class="aa-blog-single-bottom">
                             <a class="aa-blog-author" href="#"><i class="fa fa-user"></i> {{blog.author}}</a>
                             <a class="aa-blog-comments" href="#"><i class="fa fa-comment-o"></i>{{blog.comments.count}}</a>
@@ -55,38 +55,7 @@
                     <div class="col-md-12">
                       <div class="aa-properties-content-bottom">
                         <nav>
-                          {% if is_paginated %}
-                            <ul class="pagination">
-                              {% if page_obj.has_previous %}
-                                <li>
-                                  <a href="?page=1" aria-label="First">
-                                    <span aria-hidden="true">First</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                  </a>
-                                </li>
-                              {% endif %}
-                              {% for num in page_obj.paginator.page_range %}
-                                {% if page_obj.number == num %}
-                                  <li class="active"><a href="?page={{num}}">{{num}}</a></li>
-                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-                                  <li><a href="?page={{num}}">{{num}}</a></li>
-                                {% endif %}
-                              {% endfor %}
-                              {% if page_obj.has_next %}
-                                <li>
-                                  <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span></a>
-                                <li>
-                                  <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                                    <span aria-hidden="true">Last</span></a>
-                              {% endif %}
-                              </li>
-                            </ul>
-                          {% endif %}
+                          {%include 'property/pagination.html'%}
                         </nav>
                       </div>
                     </div>

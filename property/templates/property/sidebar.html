@@ -36,7 +36,7 @@
             </select>
         </div>
         <div class="aa-single-filter-search">
-            <span>AREA <var>m<sup>2</sup></var></span>
+            <span>AREA SQ FT</span>
             <span>FROM</span>
             <span id="skip-value-lower" class="example-val">200.00</span>
             <span>TO</span>
@@ -64,13 +64,13 @@
         {% for pp in popular_properties %}
         <div class="media">
             <div class="media-left">
-            <a href="#">
+            <a href="{% url 'Properties-Detail' pp.id %}">
                 <img class="media-object" src="{{pp.MainPhoto.url}}" alt="{{pp.title}}">
             </a>
             </div>
             <div class="media-body">
             <h4 class="media-heading"><a href="{% url 'Properties-Detail' pp.id %}">{{pp.title}}</a></h4>
-            <p>{{pp.description|slice:":55"}}...</p>                
+            <p>{{pp.description|truncatewords:10}}</p>                
             <span>${{pp.price|intcomma}}</span>
             </div>              
         </div>

@@ -19,11 +19,13 @@ from django.conf import settings # Vared kardane file settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from users import views as user_views
+from contact.views import ContactView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('property.urls')),
     path('', include('blog.urls')),
+    path('contact/', ContactView, name='contact'),
     path('users/', include('users.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
@@ -36,3 +38,4 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+handler404 = "home_property_project.views.page_not_found_view"

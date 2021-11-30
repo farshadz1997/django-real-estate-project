@@ -1,9 +1,11 @@
+from django.db.models import query
+from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import Property, Category
 from blog.models import Blog
-from django.db.models import Avg, Max, Min
+from django.db.models import Max, Min
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.http import Http404
@@ -11,11 +13,13 @@ from django.http import Http404
 # Create your views here.
 def Home_Page(request):
     properties = Property.objects.all().order_by('-pub_date')[:6] # get last 6 items by publish date
+    exclusive_properties = Property.objects.filter(status='Exc')
     categories = Category.objects.all()
     blogs = Blog.objects.all().order_by('-pub_date')[:3]
     property_choices = dict(Property.property_choices)
     context = {
         "properties": properties,
+        "exclusive_properties": exclusive_properties,
         "categories": categories,
         "blogs": blogs,
         "property_choices": property_choices
@@ -49,7 +53,6 @@ class PropertiesList(ListView):
     def get_ordering(self):
         ordering = super(PropertiesList, self).get_ordering()
         if self.request.GET.get('sort_by') == "Name":
-            self.get_paginate_by(self.paginate_by)
             return ('-title')
         elif self.request.GET.get('sort_by') == "Price":
             return ('-price')
@@ -65,7 +68,7 @@ class PropertyDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['nearby_properties'] = Property.objects.order_by('?').filter(city=self.object.city.lower()).exclude(id=self.object.pk)[:2]
+        context['nearby_properties'] = Property.objects.order_by('?').filter(city=self.object.city).exclude(id=self.object.pk)[:2]
         context['popular_properties'] = Property.objects.order_by('-views').exclude(id=self.object.pk)[:3]
         context['categories'] = Category.objects.all()
         context['property_choices'] = dict(Property.property_choices)
@@ -79,13 +82,14 @@ class PropertyDetailView(DetailView):
 
 class UserPropertiesListView(ListView):
     model = Property
-    template_name = 'property/properties-list.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'property/properties-list.html'
     context_object_name = 'properties'
     paginate_by = 6
     
     def get_queryset(self):
         user = get_object_or_404(User, username = self.kwargs.get('username'))
         return Property.objects.filter(author=user).order_by('-pub_date')
+
 class SearchView(ListView):
     model = Property
     template_name = 'property/properties-list.html'
@@ -102,21 +106,7 @@ class SearchView(ListView):
         context['property_choices'] = dict(Property.property_choices)
         get_copy = self.request.GET.copy()
         parameters = get_copy.pop('page', True) and get_copy.urlencode()
-        location = self.request.GET.get('location')
-        if location != None:
-            context['parameters'] = parameters
-            self.request.session['parameters'] = parameters
-            return context
-        if self.request.GET.get('sort_by'):
-            new_parameters = self.request.session.get('parameters') + '&' + parameters
-            context['parameters'] = new_parameters
-            return context
-        if self.request.GET.get('paginate_by'):
-            new_parameters = self.request.session.get('parameters') + '&' + parameters
-            context['parameters'] = new_parameters
-            return context
-        print(parameters)
-        # context['parameters'] = parameters
+        context['parameters'] = parameters
         return context
     
     def get_paginate_by(self, queryset):
@@ -158,15 +148,3 @@ class SearchView(ListView):
         except Http404:
             self.kwargs['page'] = 1
             return super().paginate_queryset(queryset, page_size)
-        
-class GalleryView(ListView):
-    model = Property
-    template_name = 'property/gallery.html'
-    context_object_name = 'property'
-    paginate_by = 12
-    
-    def get_context_data(self, *args, **kwargs):
-        context = super(GalleryView, self).get_context_data(*args, **kwargs)
-        context['categories'] = Category.objects.all()
-        return context
-        

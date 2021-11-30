@@ -13,7 +13,7 @@ class BlogList(ListView):
     template_name = 'blog/blog_list.html'
     context_object_name = 'blogs'
     ordering = '-pub_date'
-    paginate_by = 8
+    paginate_by = 6
     
     def get_context_data(self, *args, **kwargs):
         context = super(BlogList, self).get_context_data(*args, **kwargs)
@@ -60,13 +60,16 @@ class BlogSearch(ListView):
     template_name = 'blog/blog_list.html'
     context_object_name = 'blogs'
     ordering = '-pub_date'
-    paginate_by = 8
+    paginate_by = 6
     
     def get_context_data(self, *args, **kwargs):
         context = super(BlogSearch, self).get_context_data(*args, **kwargs)
         context['categories'] = Category.objects.all().annotate(num_blogs=Count('blog'))
         context['tags'] = Tag.objects.all()
         context['recent_posts'] = Blog.objects.order_by('-pub_date')[:3]
+        get_copy = self.request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+        context['parameters'] = parameters
         return context
       
     def get_queryset(self):
@@ -77,31 +80,34 @@ class BlogSearch(ListView):
             query = Blog.objects.all()
         return query
     
-
 class CategoryView(ListView):
     model = Blog
     template_name = 'blog/blog_list.html'
     context_object_name = 'blogs'
-    paginate_by = 8
+    paginate_by = 6
     
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
-        context['blogs'] = Blog.objects.filter(category__slug = self.kwargs['category'])
         context['categories'] = Category.objects.all().annotate(num_blogs=Count('blog'))
         context['tags'] = Tag.objects.all()
         context['recent_posts'] = Blog.objects.order_by('-pub_date')[:3]
         return context
+    
+    def get_queryset(self):
+        return Blog.objects.filter(category__slug = self.kwargs['category'])
 
 class TagView(ListView):
     model = Blog
     template_name = 'blog/blog_list.html'
     context_object_name = 'blogs'
-    paginate_by = 8
+    paginate_by = 6
     
     def get_context_data(self, **kwargs):
         context = super(TagView, self).get_context_data(**kwargs)
-        context['blogs'] = Blog.objects.filter(tag__slug = self.kwargs['tag'])
         context['categories'] = Category.objects.all().annotate(num_blogs=Count('blog'))
         context['tags'] = Tag.objects.all()
         context['recent_posts'] = Blog.objects.order_by('-pub_date')[:3]
         return context
+    
+    def get_queryset(self):
+        return Blog.objects.filter(tag__slug = self.kwargs['tag'])

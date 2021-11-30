@@ -42,7 +42,7 @@
                           <h2>{{blog.title}}</h2>
                           <div class="aa-blog-single-bottom">
                             <a class="aa-blog-author" href="#"><i class="fa fa-user"></i>{{blog.author}}</a>
-                            <a class="aa-blog-comments" href="#"><i class="fa fa-comment-o">{{comments.num_comments}}</i></a>
+                            <a class="aa-blog-comments" href="#"><i class="fa fa-comment-o"> {{blog.comments.count}}</i></a>
                           </div>
                           <p>{{blog.content|safe}}</p> 
                         </div>                   
@@ -54,7 +54,7 @@
                         <ul>
                           <li>TAGS:</li>
                           {% for tag in tags %}
-                          <li><a href="#">{{tag}},</a></li> 
+                          <li><a href="{% url 'Blog-Tag' tag.slug %}">{{tag}},</a></li> 
                           {% endfor %}                        
                         </ul>
                       </div>
@@ -108,7 +108,7 @@
                                 </figure>
                                 <div class="aa-blog-single-content">
                                   <h3><a href="{{post.get_absolute_url}}">{{post.title}}</a></h3>
-                                  <p>{{post.content|safe|slice:":250"}}...</p>
+                                  <p>{{post.content|safe|truncatewords:20}}</p>
                                   <div class="aa-blog-single-bottom">
                                     <a href="#" class="aa-blog-author"><i class="fa fa-user"></i> {{post.author}}</a>
                                     <a href="#" class="aa-blog-comments"><i class="fa fa-comment-o"></i>{{post.comments.count}}</a>
@@ -131,13 +131,12 @@
                             <li>
                               <div class="media">
                                 <div class="media-left">    
-                                    <img alt="img" src="img/testimonial-1.png" class="media-object news-img">      
+                                    <img alt="img" src="{%static 'img/default.jpg'%}" class="media-object news-img">      
                                 </div>
                                 <div class="media-body">
                                  <h4 class="author-name">{{comment.name}}</h4>
                                  <span class="comments-date"> {{comment.date|date:"Y b d"}}</span>
                                  <p>{{comment.comment}}</p>
-                                 <a class="reply-btn" href="#">Reply</a>
                                 </div>
                               </div>
                             </li>
