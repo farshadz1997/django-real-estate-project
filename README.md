@@ -9,7 +9,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install package
 ```bash
 pip install -r requirements.txt
 ```
-This project uses Gmail smtp service to request forget password and you need to change it in settings of project to use it.
+This project uses Gmail smtp service to request forget password and you need to change it in [settings](https://github.com/farshadz1997/real-estate-project/blob/d572149d11695d3bb7904ff4f04b2397288b2853/home_property_project/settings.py#L150) of project to use it.
 create a new super user or use just mine with the following information:  
 * Username: admin  
 * Password: HomeProperty1234
