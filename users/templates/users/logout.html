@@ -11,7 +11,7 @@
                     <div class="aa-property-header-inner">
                         <h2>User Dashboard</h2>
                         <ol class="breadcrumb">
-                            <li><a href="{%url 'login'%}">Users</a></li>        
+                            <li><a href="{%url 'users:login'%}">Users</a></li>        
                             <li class="active">Logged out</li>
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                                 <h2>You have been logged out</h2>
                                 <div class="border-top pt-3">
                                     <small class="text-muted">
-                                        <a href="{% url 'login' %}">Log In Again</a>
+                                        <a href="{% url 'users:login' %}">Log In Again</a>
                                     </small>
                                 </div>
                             </div>

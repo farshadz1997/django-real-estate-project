@@ -1,36 +1,46 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreatePropertyForm
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from property.models import Property
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, CreateView
+from django.contrib.auth import views as auth_views
+from django.views.generic import FormView
+from django.urls import reverse_lazy
 
 
 FIELDS = ['title', 'property_status', 'address', 'state', 'city', 'description', 'category', 'price',
               'bedrooms', 'bathrooms', 'garage', 'sqft', 'MainPhoto', 'photo_1', 'photo_2', 'photo_3',
               'photo_4', 'photo_5', 'photo_6']
   
-def register(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse(profile, args=[request.user.username]))
-    else:
-        if request.method == 'POST':
-            form = UserRegisterForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, f'Your account has been created! You are now able to log in')
-                return redirect('login')
-        else:
-            form = UserRegisterForm()
-        return render(request, 'users/register.html', {'form': form})
+    
+class RegisterView(SuccessMessageMixin, FormView):
+    template_name = 'users/register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("users:login")
+    success_message = "Your account has been created! You are now able to log in"
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('users:profile', args=[request.user.username])
+        return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
 
-def sign_in(request): # after login it goes to profile page through sign-in view for passing username.
-    return HttpResponseRedirect(reverse(profile, args=[request.user.username]))
+class LoginView(auth_views.LoginView):
+    template_name = 'users/login.html'
+    redirect_authenticated_user =  True
+    
+    def get_success_url(self):
+        return reverse('users:profile', args=[self.request.user.username])
+
 
 @login_required()
 def profile(request, username):
@@ -41,7 +51,7 @@ def profile(request, username):
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated')
-            return redirect(reverse(profile, args=[request.user.username]))
+            return redirect('users:profile', request.user.username)
     else:
         u_form = UserUpdateForm(instance = request.user)
         p_form = ProfileUpdateForm(instance = request.user.profile)
@@ -51,43 +61,37 @@ def profile(request, username):
     }
     return render(request, 'users/profile.html', context)
 
-@login_required()
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return HttpResponseRedirect(reverse(profile, args=[request.user.username]))
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'users/change_password.html', {'form': form})
 
-@login_required()
-def PropertyCreateView(request):
-    if request.method == 'POST':
-        author = Property(author = request.user)
-        form = CreatePropertyForm(request.POST, request.FILES, instance = author)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Your property has been listed.')
-            return HttpResponseRedirect(reverse(profile, args=[request.user.username]))
-    else:
-        form = CreatePropertyForm()
-    context = {'form': form}
-    return render(request, 'users/property-create-update.html', context)
+class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, auth_views.PasswordChangeView):
+    template_name = 'users/change_password.html'
+    form_class = PasswordChangeForm
+    success_message = 'Your password has been changed!'
+    
+    def get_success_url(self):
+        return reverse('users:profile', args=[self.request.user.username])
 
-class PropertyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+
+class PropertyCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = 'users/property-create-update.html'
+    form_class = CreatePropertyForm
+    success_message = "Your property has been listed!"
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('users:profile', args=[self.request.user.username])
+
+
+class PropertyUpdateView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, UpdateView):
     model = Property
     template_name = 'users/property-create-update.html'
     fields = FIELDS
+    success_message = 'Your property has been updated successfully.'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, f'Your property has been updated successfully.')
         return super().form_valid(form)
 
     def test_func(self):
@@ -96,9 +100,11 @@ class PropertyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-class PropertyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
+class PropertyDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, DeleteView):
     model = Property
     template_name = 'users/property-delete.html'
+    success_message = 'Your property has been deleted successfully.'
 
     def test_func(self):
         property = self.get_object()
@@ -107,5 +113,4 @@ class PropertyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
     
     def get_success_url(self):
-        messages.success(self.request, f'Your property has been deleted successfully.')
-        return reverse(profile, args=[self.request.user.username])
+        return reverse('users:profile', args=[self.request.user.username])

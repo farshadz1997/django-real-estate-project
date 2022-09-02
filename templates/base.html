@@ -74,11 +74,11 @@
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="aa-header-right">
                 {%if user.is_authenticated%}
-                  <a href="{%url 'profile' user.username%}" class="aa-register">{{user.get_username}}</a>
-                  <a href="{%url 'logout'%}" class="aa-login">Log out</a>
+                  <a href="{%url 'users:profile' user.username%}" class="aa-register">{{user.get_username}}</a>
+                  <a href="{%url 'users:logout'%}" class="aa-login">Log out</a>
                 {%else%}
-                  <a href="{%url 'register'%}" class="aa-register">Register</a>
-                  <a href="{%url 'login'%}" class="aa-login">Login</a>
+                  <a href="{%url 'users:register'%}" class="aa-register">Register</a>
+                  <a href="{%url 'users:login'%}" class="aa-login">Login</a>
                 {%endif%}
                 </div>
               </div>
@@ -104,14 +104,14 @@
           </button>
           <!-- LOGO -->                                               
           <!-- Text based logo -->
-           <a class="navbar-brand aa-logo" href="{% url 'Home-Page' %}"> Home <span>Property</span></a>
+           <a class="navbar-brand aa-logo" href="{% url 'property:Home-Page' %}"> Home <span>Property</span></a>
            <!-- Image based logo -->
            <!-- <a class="navbar-brand aa-logo-img" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
-            <li class="{% if request.resolver_match.url_name == "Home-Page" %}active{% endif %}"><a href="{% url 'Home-Page' %}">HOME</a></li>
-            <li class="{% if request.resolver_match.url_name == "Properties-List" %}active{% endif %}"><a href="{% url 'Properties-List'%}">PROPERTIES</a></li>                                       
+            <li class="{% if request.resolver_match.url_name == "property:Home-Page" %}active{% endif %}"><a href="{% url 'property:Home-Page' %}">HOME</a></li>
+            <li class="{% if request.resolver_match.url_name == "property:Properties-List" %}active{% endif %}"><a href="{% url 'property:Properties-List'%}">PROPERTIES</a></li>                                       
             <li class="{% if request.resolver_match.url_name == "Blogs-List" %}active{% endif %}"><a href="{% url 'Blogs-List' %}">BLOGS</a></li>
             <li class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"><a href="{%url 'contact'%}">CONTACT</a></li>
           </ul>                            
@@ -147,7 +147,7 @@
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-right">
-                <a href="{% url 'Home-Page' %}">Home</a>
+                <a href="{% url 'property:Home-Page' %}">Home</a>
                 <a href="#">Support</a>
                 <a href="#">License</a>
                 <a href="#">FAQ</a>
