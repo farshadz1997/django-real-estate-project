@@ -3,7 +3,7 @@
     <aside class="aa-blog-sidebar">
         <!-- Start single sidebar -->
         <div class="aa-blog-sidebar-single">
-            <form action="{% url 'Blog-Search' %}" method="GET">
+            <form action="{% url 'blog:Blog-Search' %}" method="GET">
                 <div class="aa-blog-search">
                 <input class="aa-search-text" type="text" name="q" placeholder="Search...">
                 <button class="aa-search-submit" type="submit">
@@ -17,7 +17,7 @@
             <h3>Categories</h3>
             <ul class="aa-blog-catg">
             {% for category in categories %}
-                <li><a href="{% url 'Blog-Category' category.slug %}">{{category.title}}</a><span>{{category.num_blogs}}</span></li>
+                <li><a href="{% url 'blog:Blog-Category' category.slug %}">{{category.title}}</a><span>{{category.num_blogs}}</span></li>
             {% endfor %}
             </ul>
         </div>
@@ -26,7 +26,7 @@
             <h3>Tags</h3>
             <div class="tag-cloud">
             {% for tag in tags %}
-                <a href="{% url 'Blog-Tag' tag.slug %}">{{tag.title}}</a>
+                <a href="{% url 'blog:Blog-Tag' tag.slug %}">{{tag.title}}</a>
             {% endfor %}
             </div>                    
         </div>

@@ -112,7 +112,7 @@
           <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
             <li class="{% if request.resolver_match.url_name == "property:Home-Page" %}active{% endif %}"><a href="{% url 'property:Home-Page' %}">HOME</a></li>
             <li class="{% if request.resolver_match.url_name == "property:Properties-List" %}active{% endif %}"><a href="{% url 'property:Properties-List'%}">PROPERTIES</a></li>                                       
-            <li class="{% if request.resolver_match.url_name == "Blogs-List" %}active{% endif %}"><a href="{% url 'Blogs-List' %}">BLOGS</a></li>
+            <li class="{% if request.resolver_match.url_name == "blog:Blogs-List" %}active{% endif %}"><a href="{% url 'blog:Blogs-List' %}">BLOGS</a></li>
             <li class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"><a href="{%url 'contact'%}">CONTACT</a></li>
           </ul>                            
         </div><!--/.nav-collapse -->       

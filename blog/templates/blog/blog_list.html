@@ -40,7 +40,7 @@
                           <span class="aa-date-tag">{{blog.pub_date|date:"Y b d"}}</span>
                         </figure>
                         <div class="aa-blog-single-content">
-                          <h3><a href="{% url 'Blog-Detail' blog.id %}">{{blog.title}}</a></h3>
+                          <h3><a href="{% url 'blog:Blog-Detail' blog.id %}">{{blog.title}}</a></h3>
                           <p>{{blog.content|safe|truncatewords:30}}</p>
                           <div class="aa-blog-single-bottom">
                             <a class="aa-blog-author" href="#"><i class="fa fa-user"></i> {{blog.author}}</a>
