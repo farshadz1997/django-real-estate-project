@@ -189,21 +189,21 @@ jQuery(function($){
        var skipSlider = document.getElementById('aa-sqrfeet-range');
         noUiSlider.create(skipSlider, {
             range: {
-              'min': 0,
-              '10%': 100,
-              '20%': 200,
-              '30%': 300,
-              '40%': 400,
-              '50%': 500,
-              '60%': 600,
-              '70%': 700,
-              '80%': 800,
-              '90%': 900,
-              'max': 1000
+              'min': min_sqft,
+              '10%': max_sqft * 0.1,
+              '20%': max_sqft * 0.2,
+              '30%': max_sqft * 0.3,
+              '40%': max_sqft * 0.4,
+              '50%': max_sqft * 0.5,
+              '60%': max_sqft * 0.6,
+              '70%': max_sqft * 0.7,
+              '80%': max_sqft * 0.8,
+              '90%': max_sqft * 0.9,
+              'max': max_sqft
             },
             snap: true,
             connect: true,
-            start: [200, 700]
+            start: [current_min_sqft, current_max_sqft]
         });
         // for value print
         var skipValues = [
@@ -213,6 +213,12 @@ jQuery(function($){
 
         skipSlider.noUiSlider.on('update', function( values, handle ) {
           skipValues[handle].innerHTML = values[handle];
+          skipValues[handle].value = values[handle];
+          if (skipValues[handle].id === 'skip-value-lower') {
+            document.getElementById('min_sqft').value = parseInt(values[handle]);
+          } else if (skipValues[handle].id === 'skip-value-upper') {
+            document.getElementById('max_sqft').value = parseInt(values[handle]);
+          }
         });
 
         // FOR PRICE SECTION
@@ -220,21 +226,21 @@ jQuery(function($){
         var skipSlider2 = document.getElementById('aa-price-range');
         noUiSlider.create(skipSlider2, {
             range: {
-                'min': 0,
-                '10%': 100,
-                '20%': 200,
-                '30%': 300,
-                '40%': 400,
-                '50%': 500,
-                '60%': 600,
-                '70%': 700,
-                '80%': 800,
-                '90%': 900,
-                'max': 1000
+              'min': min_price,
+              '10%': max_price * 0.1,
+              '20%': max_price * 0.2,
+              '30%': max_price * 0.3,
+              '40%': max_price * 0.4,
+              '50%': max_price * 0.5,
+              '60%': max_price * 0.6,
+              '70%': max_price * 0.7,
+              '80%': max_price * 0.8,
+              '90%': max_price * 0.9,
+              'max': max_price
             },
             snap: true,
             connect: true,
-            start: [200, 700]
+            start: [current_min_price, current_max_price]
         });
         // for value print
         var skipValues2 = [
@@ -243,7 +249,13 @@ jQuery(function($){
         ];
 
         skipSlider2.noUiSlider.on('update', function( values, handle ) {
-          skipValues2[handle].innerHTML = values[handle];
+          skipValues2[handle].innerHTML = Humanize.intComma(values[handle]);
+          skipValues2[handle].value = values[handle];
+          if (skipValues2[handle].id === 'skip-value-lower2') {
+            document.getElementById('min_price').value = parseInt(values[handle]);
+          } else if (skipValues2[handle].id === 'skip-value-upper2') {
+            document.getElementById('max_price').value = parseInt(values[handle]);
+          }
         });
       }
     });
