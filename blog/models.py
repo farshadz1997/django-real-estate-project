@@ -19,7 +19,7 @@ class Blog(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('Blog-Detail', kwargs={"pk": self.pk})
+        return reverse('blog:Blog-Detail', kwargs={"pk": self.pk})
     
     class Meta:
         ordering = ('-pub_date',)
