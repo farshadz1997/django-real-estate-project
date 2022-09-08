@@ -33,33 +33,11 @@
               <div class="aa-properties-content-head-left">
                 <form class="aa-sort-form" method="GET">
                   <label for="">Sort by</label>
-                  <select name="sort_by" onchange="this.form.submit()">
-                  {%if request.GET.sort_by%}
-                    <option value="{{current_order}}">{{request.GET.sort_by}}</option>
-                    {%ifnotequal current_order 'Date'%}<option value="Date">Date</option>{%endifnotequal%}
-                    {%ifnotequal current_order 'Name'%}<option value="Name">Name</option>{%endifnotequal%}
-                    {%ifnotequal current_order 'Price'%}<option value="Price">Price</option>{%endifnotequal%}
-                  {%else%}
-                    <option value="Date">Date</option>
-                    <option value="Name">Name</option>
-                    <option value="Price">Price</option>
-                  {%endif%}
-                  </select>
+                  {{form.sort_by}}
                 </form>
                 <form class="aa-show-form" method="GET">
                   <label for="">Show</label>
-                  <select name="paginate_by" onchange="this.form.submit()">
-                    {%if request.GET.paginate_by%}
-                      <option value="{{current_pagination}}">{{current_pagination}}</option>
-                      {%ifnotequal current_pagination '6'%}<option value="6">6</option>{%endifnotequal%}
-                      {%ifnotequal current_pagination '12'%}<option value="12">12</option>{%endifnotequal%}
-                      {%ifnotequal current_pagination '24'%}<option value="24">24</option>{%endifnotequal%}
-                    {%else%}
-                      <option value="6">6</option>
-                      <option value="12">12</option>
-                      <option value="24">24</option>
-                    {%endif%}
-                  </select>
+                  {{form.paginate_by}}
                 </form>
               </div>
               <div class="aa-properties-content-head-right">
@@ -99,14 +77,14 @@
                           <span>City: {{property.city}}</span>
                         </div>
                         <div class="aa-properties-about">
-                          <h3><a href="{% url 'Properties-Detail' property.id %}">{{property.title}}</a></h3>
+                          <h3><a href="{{property.get_absolute_url}}">{{property.title}}</a></h3>
                           <p>{{property.description|truncatewords:20}}</p>                      
                         </div>
                         <div class="aa-properties-detial">
                           <span class="aa-price">
                             ${{property.price|intcomma}}
                           </span>
-                          <a class="aa-secondary-btn" href="{% url 'Properties-Detail' property.id %}">View Details</a>
+                          <a class="aa-secondary-btn" href="{{property.get_absolute_url}}">View Details</a>
                         </div>
                       </div>
                     </article>

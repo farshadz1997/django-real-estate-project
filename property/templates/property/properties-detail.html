@@ -40,8 +40,8 @@
             {%endif%}
             {% if property.author == user%}
               <div>
-                <a href="{% url 'update-property' property.id %}"><button type="button" class="btn btn-secondary">Update</button></a>
-                <a href="{% url 'delete-property' property.id %}"<button type="button" class="btn btn-danger">Delete</button></a>
+                <a href="{% url 'users:update-property' property.id %}"><button type="button" class="btn btn-secondary">Update</button></a>
+                <a href="{% url 'users:delete-property' property.id %}"<button type="button" class="btn btn-danger">Delete</button></a>
               </div>
               <hr>
             {%endif%}
@@ -125,14 +125,14 @@
                             <span>City: {{near_p.city}}</span>
                           </div>
                           <div class="aa-properties-about">
-                            <h3><a href="{% url 'Properties-Detail' near_p.id %}">{{near_p.title}}</a></h3>
+                            <h3><a href="{% url 'property:Properties-Detail' near_p.id %}">{{near_p.title}}</a></h3>
                             <p>{{near_p.description|truncatewords:10}}</p>                      
                           </div>
                           <div class="aa-properties-detial">
                             <span class="aa-price">
                               ${{near_p.price|intcomma}}
                             </span>
-                            <a class="aa-secondary-btn" href="{% url 'Properties-Detail' near_p.id %}">View Details</a>
+                            <a class="aa-secondary-btn" href="{% url 'property:Properties-Detail' near_p.id %}">View Details</a>
                           </div>
                         </div>
                       </article>

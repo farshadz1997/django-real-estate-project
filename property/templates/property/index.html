@@ -44,41 +44,23 @@
   <section id="aa-advance-search">
     <div class="container">
       <div class="aa-advance-search-area">
-        <form method="GET" action="{% url 'Search'%}">
+        <form method="GET" action="{% url 'property:Search'%}">
          <div class="aa-advance-search-top">
             <div class="row">
               <div class="col-md-4">
                 <div class="aa-single-advance-search">
-                {%if request.GET.location%}
-                  <input type="text" placeholder="Type Your Location" name='location' value="{{ request.GET.location }}">
-                {%else%}
-                  <input type="text" placeholder="Type Your Location" name='location' value="">
-                {%endif%}
+                {{form.location}}
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="aa-single-advance-search">
-                  <select name="category">
-                    {% if request.GET.category %}
-                    <option value="{{request.GET.category}}">{{request.GET.category.title}}</option>
-                    {% endif %}
-                    <option value="">Category</option>
-                    {% for cat in categories %}
-                      {% if not request.GET.category.title == cat.title %}
-                      <option value="{{cat.slug}}">{{cat.title}}</option>
-                      {% endif %}
-                    {% endfor %}
+                    {{form.category}}
                   </select>
                 </div>
               </div>
               <div class="col-md-2">
                  <div class="aa-single-advance-search">
-                    <select name="look_for">
-                    <option value="">Look For</option>
-                    {%for key, value in property_choices.items%}
-                      <option value="{{key}}">{{value}}</option>
-                    {%endfor%}
-                    </select>
+                    {{form.look_for}}
                   </div>
               </div>
               <div class="col-md-4">
@@ -94,9 +76,11 @@
               <div class="aa-single-filter-search">
                 <span>AREA (SQ)</span>
                 <span>FROM</span>
-                <span id="skip-value-lower" class="example-val">30.00</span>
+                <span id="skip-value-lower" class="example-val" name="min_sqft" value="{{max_and_min.minimum_sqft}}">{{max_and_min.minimum_sqft}}</span>
+                {{form.min_sqft}}
                 <span>TO</span>
-                <span id="skip-value-upper" class="example-val">100.00</span>
+                <span id="skip-value-upper" class="example-val" name="max_sqft" value="{{max_and_min.maximum_sqft}}">{{max_and_min.maximum_sqft}}</span>
+                {{form.max_sqft}}
                 <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
                 </div>                  
               </div>
@@ -105,9 +89,11 @@
               <div class="aa-single-filter-search">
                 <span>PRICE ($)</span>
                 <span>FROM</span>
-                <span id="skip-value-lower2" class="example-val">30.00</span>
+                <span id="skip-value-lower2" class="example-val" name="min_price" value="{{max_and_min.minimum_price}}">{{max_and_min.minimum_price}}</span>
+                {{form.min_price}}
                 <span>TO</span>
-                <span id="skip-value-upper2" class="example-val">100.00</span>
+                <span id="skip-value-upper2" class="example-val" name="max_price" value="{{max_and_min.maximum_price}}">{{max_and_min.maximum_price|intcomma}}</span>
+                {{form.max_price}}
                 <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
                 </div>      
               </div>
@@ -119,6 +105,16 @@
       </div>
     </div>
   </section>
+  <script>
+    var min_price = {{max_and_min.minimum_price}};
+    var max_price = {{max_and_min.maximum_price}};
+    var min_sqft = {{max_and_min.minimum_sqft}};
+    var max_sqft = {{max_and_min.maximum_sqft}};
+    var current_min_price = min_price;
+    var current_max_price = max_price;
+    var current_min_sqft = min_sqft;
+    var current_max_sqft = max_sqft;
+  </script>
   <!-- / Advance Search -->
 
   <!-- About us -->
@@ -197,14 +193,14 @@
                     <span>City: {{property.city}}</span>
                   </div>
                   <div class="aa-properties-about">
-                    <h3><a href="{% url 'Properties-Detail' property.id %}">{{property.title}}</a></h3>
+                    <h3><a href="{{property.get_absolute_url}}">{{property.title}}</a></h3>
                     <p>{{property.description|truncatewords:20}}</p>                      
                   </div>
                   <div class="aa-properties-detial">
                     <span class="aa-price">
                       ${{property.price|intcomma}}
                     </span>
-                    <a href="{% url 'Properties-Detail' property.id %}" class="aa-secondary-btn">View Details</a>
+                    <a href="{{property.get_absolute_url}}" class="aa-secondary-btn">View Details</a>
                   </div>
                 </div>
               </article>
@@ -292,7 +288,7 @@
           <div class="aa-promo-banner-area">
             <h3>Find Your Best Property</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ex illum corporis quibusdam numquam quisquam optio explicabo. Officiis odit quia odio dignissimos eius repellat id!</p>
-            <a href="{%url 'Properties-List'%}" class="aa-view-btn">View Details</a>
+            <a href="{%url 'property:Properties-List'%}" class="aa-view-btn">View Details</a>
           </div>
         </div>
       </div>

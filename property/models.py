@@ -46,7 +46,7 @@ class Property(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('Properties-Detail', kwargs={'pk': self.pk})
+        return reverse('property:Properties-Detail', kwargs={'pk': self.pk})
     
 class Category(models.Model):
     title = models.CharField(verbose_name = "Title", max_length = 50)

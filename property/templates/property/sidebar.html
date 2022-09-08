@@ -1,80 +1,82 @@
 {%load humanize%}
 <div class="col-md-4">
     <aside class="aa-properties-sidebar">
-    <!-- Start Single properties sidebar -->
-    <div class="aa-properties-single-sidebar">
-        <h3>Properties Search</h3>
-        <form action="{% url 'Search' %}" method='GET' name='search_form'>
-        <div class="aa-single-advance-search">
-            <input type="text" placeholder="Type Your Location" name="location" value={%if request.GET.location%}
-            "{{request.GET.location}}"{%else%}""{%endif%}>
+        <!-- Start Single properties sidebar -->
+        <div class="aa-properties-single-sidebar">
+            <h3>Properties Search</h3>
+            <form action="{% url 'property:Search' %}" method='GET' name='search_form'>
+                <div class="aa-single-advance-search">
+                    {{form.location}}
+                </div>
+                <div class="aa-single-advance-search">
+                    {{form.category}}
+                </div>
+                <div class="aa-single-advance-search">
+                    {{form.look_for}}
+                </div>
+                <div class="aa-single-filter-search">
+                    <span>AREA SQ FT</span>
+                    <span>FROM</span>
+                    {% comment %} <span id="skip-value-lower" class="example-val">200.00</span> {% endcomment %}
+                    <span id="skip-value-lower" class="example-val" value="{{max_and_min.minimum_sqft}}">{{max_and_min.minimum_sqft}}</span>
+                    {{form.min_sqft}}
+                    <span>TO</span>
+                    {% comment %} <span id="skip-value-upper" class="example-val">100.00</span> {% endcomment %}
+                    <span id="skip-value-upper" class="example-val" value="{{max_and_min.maximum_sqft}}">{{max_and_min.maximum_sqft}}</span>
+                    {{form.max_sqft}}
+                    <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                    </div>
+                </div>
+                <div class="aa-single-filter-search">
+                    <span>PRICE ($)</span>
+                    <span>FROM</span>
+                    <span id="skip-value-lower2" class="example-val" value="{{max_and_min.minimum_price}}">{{max_and_min.minimum_price}}</span>
+                    {{form.min_price}}
+                    <span>TO</span>
+                    <span id="skip-value-upper2" class="example-val" value="{{max_and_min.maximum_price}}">{{max_and_min.maximum_price|intcomma}}</span>
+                    {{form.max_price}}
+                    <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                    </div>
+                </div>
+                <div class="aa-single-advance-search">
+                    <input type="submit" value="Search" class="aa-search-btn">
+                </div>
+            </form>
         </div>
-        <div class="aa-single-advance-search">
-            <select id="" name="category">
-            {% if request.GET.category %}
-            <option value="{{request.GET.category}}">{{request.GET.category.title}}</option>
-            {% endif %}
-            <option value="">Category</option>
-            {% for cat in categories %}
-                {% if not request.GET.category.title == cat.title %}
-                <option value="{{cat.slug}}">{{cat.title}}</option>
-                {% endif %}
-            {% endfor %}
-            </select>
-        </div>
-        <div class="aa-single-advance-search">
-            <select id="" name="look_for">
-            {% if request.GET.look_for %}
-                {%for key, value in property_choices.items%}
-                    {%ifequal request.GET.look_for key%}<option value="{{key}}">{{value}}</option>{%endifequal%}
-                {%endfor%}
-            {% endif %}
-            <option value="">Look For</option>
-            {%for key, value in property_choices.items%}
-                {%ifnotequal request.GET.look_for key%}<option value="{{key}}">{{value}}</option>{%endifnotequal%}
-            {%endfor%}
-            </select>
-        </div>
-        <div class="aa-single-filter-search">
-            <span>AREA SQ FT</span>
-            <span>FROM</span>
-            <span id="skip-value-lower" class="example-val">200.00</span>
-            <span>TO</span>
-            <span id="skip-value-upper" class="example-val">100.00</span>
-            <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-            </div>                  
-        </div>
-        <div class="aa-single-filter-search">
-            <span>PRICE ($)</span>
-            <span>FROM</span>
-            <span id="skip-value-lower2" class="example-val">30.00</span>
-            <span>TO</span>
-            <span id="skip-value-upper2" class="example-val">100.00</span>
-            <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-            </div>      
-        </div>
-        <div class="aa-single-advance-search">
-            <input type="submit" value="Search" class="aa-search-btn">
-        </div>
-        </form>
-    </div> 
-    <!-- Start Single properties sidebar -->
-    <div class="aa-properties-single-sidebar">
-        <h3>Popular Properties</h3>
-        {% for pp in popular_properties %}
-        <div class="media">
-            <div class="media-left">
-            <a href="{% url 'Properties-Detail' pp.id %}">
-                <img class="media-object" src="{{pp.MainPhoto.url}}" alt="{{pp.title}}">
-            </a>
+        <script>
+            var min_price = {{max_and_min.minimum_price}};
+            var max_price = {{max_and_min.maximum_price}};
+            var min_sqft = {{max_and_min.minimum_sqft}};
+            var max_sqft = {{max_and_min.maximum_sqft}};
+            {%if request.GET.min_price%}
+            var current_min_price = document.getElementById('min_price').getAttribute('value');
+            var current_max_price = document.getElementById('max_price').getAttribute('value');
+            var current_min_sqft = document.getElementById('min_sqft').getAttribute('value');
+            var current_max_sqft = document.getElementById('max_sqft').getAttribute('value');
+            {%else%}
+            var current_min_price = min_price;
+            var current_max_price = max_price;
+            var current_min_sqft = min_sqft;
+            var current_max_sqft = max_sqft;
+            {%endif%}
+        </script>
+        <!-- Start Single properties sidebar -->
+        <div class="aa-properties-single-sidebar">
+            <h3>Popular Properties</h3>
+            {% for pp in popular_properties %}
+            <div class="media">
+                <div class="media-left">
+                    <a href="{{pp.get_absolute_url}}">
+                        <img class="media-object" src="{{pp.MainPhoto.url}}" alt="{{pp.title}}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading"><a href="{{pp.get_absolute_url}}">{{pp.title}}</a></h4>
+                    <p>{{pp.description|truncatewords:10}}</p>
+                    <span>${{pp.price|intcomma}}</span>
+                </div>
             </div>
-            <div class="media-body">
-            <h4 class="media-heading"><a href="{% url 'Properties-Detail' pp.id %}">{{pp.title}}</a></h4>
-            <p>{{pp.description|truncatewords:10}}</p>                
-            <span>${{pp.price|intcomma}}</span>
-            </div>              
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
     </aside>
 </div>
