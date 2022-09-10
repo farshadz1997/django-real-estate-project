@@ -1,35 +1,37 @@
 {% if is_paginated %}
+{% with params=request.GET.urlencode %}
     <!-- Start pagiantion -->
     <ul class="pagination">
         {% if page_obj.has_previous %}
             <li>
-                <a href="?page=1{%if parameters%}&{{ parameters }}{%endif%}" aria-label="First">
+                <a href="{% relative_url 1 'page' params %}" aria-label="First">
                     <span aria-hidden="true">First</span>
                 </a>
             </li>
             <li>
-                <a href="?page={{ page_obj.previous_page_number }}{%if parameters%}&{{ parameters }}{%endif%}" aria-label="Previous">
+                <a href="{% relative_url page_obj.previous_page_number 'page' params %}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
         {% endif %}
         {% for num in page_obj.paginator.page_range %}
             {% if page_obj.number == num %}
-                <li class="active"><a href="?page={{num}}{%if parameters%}&{{ parameters }}{%endif%}">{{num}}</a></li>
+                <li class="active"><a href="{% relative_url num 'page' params %}">{{num}}</a></li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-                <li><a href="?page={{num}}{%if parameters%}&{{ parameters }}{%endif%}">{{num}}</a></li>
+                <li><a href="{% relative_url num 'page' params %}">{{num}}</a></li>
             {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
             <li>
-                <a href="?page={{page_obj.next_page_number}}{%if parameters%}&{{parameters}}{%endif%}" aria-label="Next">
+                <a href="{% relative_url page_obj.next_page_number 'page' params %}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span></a>
             <li>
-                <a href="?page={{page_obj.paginator.num_pages}}{%if parameters%}&{{parameters}}{%endif%}" aria-label="Last">
+                <a href="{% relative_url page_obj.paginator.num_pages 'page' params %}" aria-label="Last">
                     <span aria-hidden="true">Last</span>
                 </a>
             </li>
         {%endif%}
     </ul>
     <!-- End of pagiantion -->
+{%endwith%}
 {% endif %}

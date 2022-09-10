@@ -2,11 +2,26 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import Property
 from blog.models import Blog
-from django.db.models import Max, Min
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import FormMixin
 from .forms import SearchForm
+from django.core.paginator import Paginator, EmptyPage
+
+
+class MyPaginator(Paginator):
+    def validate_number(self, number):
+        try:
+            return super().validate_number(number)
+        except EmptyPage:
+            if int(number) > 1:
+                # return the last page
+                return self.num_pages
+            elif int(number) < 1:
+                # return the first page
+                return 1
+            else:
+                raise
 
 
 class HomePageView(TemplateView, FormMixin):
@@ -18,9 +33,6 @@ class HomePageView(TemplateView, FormMixin):
         context["properties"] = Property.objects.all().order_by("-pub_date")[:6]
         context["exclusive_properties"] = Property.objects.filter(status="Exc")
         context["blogs"] = Blog.objects.all().order_by("-pub_date")[:3]
-        context["max_and_min"] = Property.objects.aggregate(
-            minimum_price=Min("price"), maximum_price=Max("price"), minimum_sqft=Min("sqft"), maximum_sqft=Max("sqft")
-        )
         return context
 
 
@@ -29,16 +41,12 @@ class PropertiesList(ListView, FormMixin):
     template_name = "property/properties-list.html"
     context_object_name = "properties"
     paginate_by = 6
+    paginator_class = MyPaginator
     form_class = SearchForm
 
     def get_context_data(self, *args, **kwargs):
         context = super(PropertiesList, self).get_context_data(*args, **kwargs)
         context["popular_properties"] = Property.objects.order_by("-views")[:3]
-        context["max_and_min"] = Property.objects.aggregate(
-            minimum_price=Min("price"), maximum_price=Max("price"), minimum_sqft=Min("sqft"), maximum_sqft=Max("sqft")
-        )
-        get_copy = self.request.GET.copy()
-        context["parameters"] = get_copy.pop("page", True) and get_copy.urlencode()
         return context
 
     def get_paginate_by(self, queryset):
@@ -47,19 +55,12 @@ class PropertiesList(ListView, FormMixin):
         return self.request.GET.get("paginate_by", self.paginate_by)
 
     def get_ordering(self):
-        if self.request.GET.get("sort_by") == "Name":
-            return "-title"
-        elif self.request.GET.get("sort_by") == "Price":
-            return "-price"
-        elif self.request.GET.get("sort_by") == "Date":
-            return "-pub_date"
-        else:
-            return self.ordering
+        return f"-{self.request.GET.get('sort_by', 'pub_date')}"
 
     def get_initial(self):
         return {"sort_by": self.request.GET.get("sort_by", "Date"), "paginate_by": self.request.GET.get("paginate_by", "6")}
-
-
+    
+        
 class PropertyDetailView(DetailView, FormMixin):
     model = Property
     template_name = "property/properties-detail.html"
@@ -70,9 +71,6 @@ class PropertyDetailView(DetailView, FormMixin):
         context = super().get_context_data(**kwargs)
         context["nearby_properties"] = Property.objects.order_by("?").filter(city=self.object.city).exclude(id=self.object.pk)[:2]
         context["popular_properties"] = Property.objects.order_by("-views").exclude(id=self.object.pk)[:3]
-        context["max_and_min"] = Property.objects.aggregate(
-            minimum_price=Min("price"), maximum_price=Max("price"), minimum_sqft=Min("sqft"), maximum_sqft=Max("sqft")
-        )
         return context
 
     def get_object(self):
@@ -86,12 +84,8 @@ class UserPropertiesListView(ListView, FormMixin):
     template_name = "property/properties-list.html"
     context_object_name = "properties"
     paginate_by = 6
+    paginator_class = MyPaginator
     form_class = SearchForm
-    extra_context = {
-        "max_and_min": Property.objects.aggregate(
-            minimum_price=Min("price"), maximum_price=Max("price"), minimum_sqft=Min("sqft"), maximum_sqft=Max("sqft")
-        )
-    }
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get("username"))
@@ -102,16 +96,12 @@ class SearchView(ListView, FormMixin):
     template_name = "property/properties-list.html"
     context_object_name = "properties"
     paginate_by = 6
+    paginator_class = MyPaginator    
     form_class = SearchForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["popular_properties"] = Property.objects.order_by("-views")[:3]
-        context["max_and_min"] = Property.objects.aggregate(
-            minimum_price=Min("price"), maximum_price=Max("price"), minimum_sqft=Min("sqft"), maximum_sqft=Max("sqft")
-        )
-        get_copy = self.request.GET.copy()
-        context["parameters"] = get_copy.pop("page", True) and get_copy.urlencode()
         return context
 
     def get_paginate_by(self, queryset):
@@ -120,14 +110,7 @@ class SearchView(ListView, FormMixin):
         return self.request.GET.get("paginate_by", self.paginate_by)
 
     def get_ordering(self):
-        if self.request.GET.get("sort_by") == "Name":
-            return "-title"
-        elif self.request.GET.get("sort_by") == "Price":
-            return "-price"
-        elif self.request.GET.get("sort_by") == "Date":
-            return "-pub_date"
-        else:
-            return self.ordering
+        return f"-{self.request.GET.get('sort_by', 'pub_date')}"
 
     def get_queryset(self):
         request = self.request.GET
@@ -153,6 +136,6 @@ class SearchView(ListView, FormMixin):
             "max_sqft": self.request.GET.get("max_sqft", None),
             "min_price": self.request.GET.get("min_price", None),
             "max_price": self.request.GET.get("max_price", None),
-            "sort_by": self.request.GET.get("sort_by", "Date"),
+            "sort_by": self.request.GET.get("sort_by", "pub_date"),
             "paginate_by": self.request.GET.get("paginate_by", "6"),
         }

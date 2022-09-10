@@ -360,7 +360,25 @@ jQuery(function($){
         // settings: "unslick"
         // instead of a settings object
       ]
+    });
+    
+    /* ----------------------------------------------------------- */
+    /*  15. HANDLE USER CHOICES FOR PAGINATION AND ORDERING
+    /* ----------------------------------------------------------- */   
+    
+    jQuery('#id_sort_by').on('change', function() {
+      var url = new URL(window.location.href);
+      var sort_by = jQuery(this).val();
+      url.searchParams.set('sort_by', sort_by);
+      window.location.href = url;
     }); 
+
+    jQuery('#id_paginate_by').on('change', function() {
+      var url = new URL(window.location.href);
+      var paginate_by = jQuery(this).val();
+      url.searchParams.set('paginate_by', paginate_by);
+      window.location.href = url;
+    });
 
  
 });

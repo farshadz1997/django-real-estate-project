@@ -33,12 +33,12 @@ class SearchForm(forms.Form):
     max_price = forms.IntegerField(required=False, widget=forms.HiddenInput(attrs={"type": "hidden", "id": "max_price"}))
 
     sort_by = forms.ChoiceField(
-        choices=[("Date", "Date"), ("Name", "Name"), ("Price", "Price")],
+        choices=[("pub_date", "Date"), ("title", "Name"), ("price", "Price")],
         required=False,
-        widget=forms.Select(attrs={"onchange": "this.form.submit();"}),
+        widget=forms.Select(),
     )
     paginate_by = forms.ChoiceField(
         choices=[("6", "6"), ("12", "12"), ("18", "18"), ("24", "24")],
         required=False,
-        widget=forms.Select(attrs={"onchange": "this.form.submit();"}),
+        widget=forms.Select(),
     )
