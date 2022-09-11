@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import Property
 from blog.models import Blog
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import FormMixin
 from .forms import SearchForm
@@ -75,10 +75,11 @@ class PropertyDetailView(DetailView, FormMixin):
 
     def get_object(self):
         obj = super().get_object()
-        obj.views += 1
+        obj.views = F("views") + 1
         obj.save()
+        obj.refresh_from_db()
         return obj
-
+    
 
 class UserPropertiesListView(ListView, FormMixin):
     template_name = "property/properties-list.html"
@@ -89,7 +90,23 @@ class UserPropertiesListView(ListView, FormMixin):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get("username"))
-        return Property.objects.filter(author=user).order_by("-pub_date")
+        return Property.objects.filter(author=user).order_by(f"-{self.request.GET.get('sort_by', 'pub_date')}")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["popular_properties"] = Property.objects.order_by("-views")[:3]
+        return context
+    
+    def get_paginate_by(self, queryset):
+        if self.request.GET.get("paginate_by") == "":
+            return self.paginate_by
+        return self.request.GET.get("paginate_by", self.paginate_by)
+    
+    def get_ordering(self):
+        return f"-{self.request.GET.get('sort_by', 'pub_date')}"
+    
+    def get_initial(self):
+        return {"sort_by": self.request.GET.get("sort_by", "Date"), "paginate_by": self.request.GET.get("paginate_by", "6")}
 
 
 class SearchView(ListView, FormMixin):

@@ -5,7 +5,7 @@
             <ul class="aa-blog-catg">
             {%if user.is_authenticated %}
                 <li><a href="{%url 'users:profile' user.username%}">Profile</a></li>
-                <li><a href="{%url 'user-properties' user.username%}">Your Properties</a></li>
+                <li><a href="{%url 'property:user-properties' user.username%}">Your Properties</a></li>
                 <li><a href="{%url 'users:change-password'%}">Change Password</a></li>
                 <li><a href="{%url 'users:create-property'%}">Add Property</a></li>
             {%else%}
