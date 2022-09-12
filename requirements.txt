@@ -2,3 +2,4 @@ django
 django-crispy-forms
 django-autoslug
 django-ckeditor
+django-debug-toolbar
