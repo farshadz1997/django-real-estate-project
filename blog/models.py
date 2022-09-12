@@ -32,8 +32,12 @@ class Category(models.Model):
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self):
+        return reverse("blog:Blog-Category", kwargs={"category": self.slug})
+    
     class Meta:
         verbose_name_plural = "Catrgories"
+        
         
 class Tag(models.Model):
     title = models.CharField(max_length=55, verbose_name='Title')
@@ -42,6 +46,10 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("blog:Blog-Tag", kwargs={"tag": self.slug})
+    
     
 class Comments(models.Model):
     blog = models.ForeignKey("Blog", verbose_name="Blog", on_delete=models.CASCADE, related_name="comments")
