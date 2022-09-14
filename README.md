@@ -27,9 +27,6 @@ create a new super user or use just mine with the following information:
   * Comments in blogs.
   * Search in blogs.
 
-## Issues
-Search by **Area** and **Price** do not work. 
-
 ## Photos
 ### Home page
 ![Home page](https://user-images.githubusercontent.com/60227955/144056636-122642da-8417-499f-8826-45937a34bd0e.png)
