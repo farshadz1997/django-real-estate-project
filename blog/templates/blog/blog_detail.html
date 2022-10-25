@@ -124,10 +124,10 @@
                     <!-- comment threats -->
                     <div class="col-md-12">
                       <div class="aa-comments-area">
-                        <h3>{{comments.count}} Comments</h3>
+                        <h3>{{blog.comments.all.count}} Comments</h3>
                         <div class="comments">
                           <ul class="commentlist">
-                          {% for comment in comments %}
+                          {% for comment in blog.comments.all %}
                             <li>
                               <div class="media">
                                 <div class="media-left">    

@@ -32,7 +32,7 @@ class HomePageView(TemplateView, FormMixin):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context["properties"] = Property.objects.all().order_by("-pub_date")[:6]
         context["exclusive_properties"] = Property.objects.filter(status="Exc")
-        context["blogs"] = Blog.objects.all().order_by("-pub_date")[:3]
+        context["blogs"] = Blog.objects.all().select_related("author").prefetch_related("comments").order_by("-pub_date")[:3]
         return context
 
 
@@ -69,8 +69,8 @@ class PropertyDetailView(DetailView, FormMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["nearby_properties"] = Property.objects.order_by("?").filter(city=self.object.city).exclude(id=self.object.pk)[:2]
-        context["popular_properties"] = Property.objects.order_by("-views").exclude(id=self.object.pk)[:3]
+        context["nearby_properties"] = Property.objects.filter(city=self.object.city).exclude(id=self.object.pk).order_by("?")[:2]
+        context["popular_properties"] = Property.objects.exclude(id=self.object.pk).order_by("-views")[:3]
         return context
 
     def get_object(self):
