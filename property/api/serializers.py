@@ -9,7 +9,7 @@ class CategorySerializer(serializers.ModelSerializer):
         exclude = ("id",)
 
 
-class PropertyListSerializer(serializers.ModelSerializer):
+class PropertyListSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.SerializerMethodField()
     
     def get_category(self, obj):
@@ -18,6 +18,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         depth = 1
+        extra_kwargs = {"url": {"view_name": "property:api_property_detail", "lookup_field": "pk"}}
         fields = (
             "id",
             "title",
@@ -33,6 +34,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
             "garage",
             "sqft",
             "MainPhoto",
+            "url",
         )
 
 
