@@ -1,7 +1,11 @@
 from django.urls import path
 from . import views
+from .api import viewsets as api_viewsets
 
 app_name = "blog"
+
+blog_list = api_viewsets.BlogAPI.as_view({"get": "list"})
+blog_detail = api_viewsets.BlogAPI.as_view({"get": "retrieve"})
 
 urlpatterns = [
     path("blogs", views.BlogList.as_view(), name="Blogs-List"),
@@ -13,4 +17,10 @@ urlpatterns = [
         name="Blog-Category",
     ),
     path("blogs/tags/<slug:tag>/", views.TagView.as_view(), name="Blog-Tag"),
+    ######## API ########
+    path("api/blogs/", blog_list, name="api_blog_list"),
+    path("api/blogs/<int:pk>/", blog_detail, name="api_blog_detail"),
+    path("api/blogs/search/", api_viewsets.BlogSearchAPI.as_view(), name="api_blog_search"),
+    path("api/blogs/categories/<slug:category>/", api_viewsets.CategoryAPI.as_view(), name="api_blog_category"),
+    path("api/blogs/tags/<slug:tag>/", api_viewsets.TagAPI.as_view(), name="api_blog_tag"),
 ]
