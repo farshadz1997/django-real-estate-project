@@ -1,56 +1,64 @@
-from multiprocessing import AuthenticationError
 from rest_framework import serializers
 from ..models import Blog, Category, Tag, Comments
 
-from django.db.models import Count
-
 
 class CommentSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%d %b %Y %H:%M")
+
     class Meta:
         model = Comments
-        exclude = ("blog",)
-        
+        exclude = ("blog", "id")
+
     def create(self, validated_data):
-        blog = Blog.objects.get(id=self.context["request"].data.get("blog"))
-        comment = Comments.objects.create(blog=blog, **validated_data)
+        comment = Comments.objects.create(blog_id=self.initial_data["blog_id"], **validated_data)
         return comment
 
 
 class BlogListSerializer(serializers.HyperlinkedModelSerializer):
-    category = serializers.SerializerMethodField()
-    author = serializers.SerializerMethodField()
-    
-    def get_author(self, obj):
-        return obj.author.username
-    
-    def get_category(self, obj):
-        return obj.category.title
-    
+    category = serializers.CharField(source="category.title")
+    author = serializers.CharField(source="author.username")
+    comments_count = serializers.SerializerMethodField()
+    pub_date = serializers.DateTimeField(format="%d %b %Y %H:%M")
+    update_date = serializers.DateTimeField(format="%d %b %Y %H:%M")
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
     class Meta:
         model = Blog
         extra_kwargs = {"url": {"view_name": "blog:api_blog_detail", "lookup_field": "pk"}}
-        exclude = ("tag",)
-        
-        
+        exclude = ("tag", "slug")
+
+
 class BlogDetailSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     comments_count = serializers.SerializerMethodField()
-    category = serializers.SerializerMethodField()
+    category = serializers.CharField(source="category.title")
     tags = serializers.SerializerMethodField()
-    author = serializers.SerializerMethodField()
-    
-    def get_category(self, obj):
-        return obj.category.title
-    
+    author = serializers.CharField(source="author.username")
+    pub_date = serializers.DateTimeField(format="%d %b %Y %H:%M")
+    update_date = serializers.DateTimeField(format="%d %b %Y %H:%M")
+
     def get_tags(self, obj):
         return obj.tag.all().values_list("title", flat=True)
-    
+
     def get_comments_count(self, obj):
         return obj.comments.count()
-    
-    def get_author(self, obj):
-        return obj.author.username
-    
+
     class Meta:
         model = Blog
         exclude = ("tag", "slug")
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        extra_kwargs = {"url": {"view_name": "blog:api_blog_category", "lookup_field": "slug", "lookup_url_kwarg": "category"}}
+        fields = ("title", "url")
+
+
+class TagSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ("title", "url")
+        extra_kwargs = {"url": {"view_name": "blog:api_blog_tag", "lookup_field": "slug", "lookup_url_kwarg": "tag"}}
