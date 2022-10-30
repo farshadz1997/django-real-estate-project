@@ -23,6 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("property.urls")),
     path("", include("blog.urls", namespace="blog")),
+    path("", include("users.api.urls", namespace="users_api")),
     path("contact/", ContactView, name="contact"),
     path("accounts/", include("users.urls", namespace="users")),
     path('__debug__/', include('debug_toolbar.urls')),
