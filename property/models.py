@@ -56,5 +56,14 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
         
     def __str__(self):
-        return self.title 
+        return self.title
+    
+    @classmethod
+    def get_categories(cls):
+        """Returns all categories titles for field choices used in serializers"""
+        categories = Category.objects.all().values_list("id", "title")
+        values = []
+        for category in categories:
+            values.append(category[1])
+        return values  
     

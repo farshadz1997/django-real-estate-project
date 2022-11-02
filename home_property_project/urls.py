@@ -18,13 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from contact.views import ContactView
+from contact.api.viewsets import ContactAPI
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("property.urls")),
     path("", include("blog.urls", namespace="blog")),
     path("", include("users.api.urls", namespace="users_api")),
+    path("", include("property.api.urls", namespace="property_api")),
     path("contact/", ContactView, name="contact"),
+    path("api/contact/", ContactAPI.as_view(), name="api_contact"),
     path("accounts/", include("users.urls", namespace="users")),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
