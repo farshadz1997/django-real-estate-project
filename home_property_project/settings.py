@@ -32,9 +32,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "rest_framework",
+    "rest_framework.authtoken",
     "autoslug",
     "crispy_forms",
     "ckeditor",
+    "django.contrib.sites",
     "django.contrib.humanize",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -72,6 +75,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "property.context_processors.global_context",
+                "blog.context_processors.blog_context",
             ],
             "builtins":[
                 "property.templatetags.template_tags"
@@ -126,6 +130,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Site id to use it in signals that we don't have access to request
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -151,6 +157,17 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER =  os.environ.get('DB_USER') # or email , For security add it to windows environment or env file
 EMAIL_HOST_PASSWORD = os.environ.get('DB_PASS') # password 
+
+# rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'UPLOADED_FILES_USE_URL': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
