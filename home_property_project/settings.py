@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "autoslug",
     "crispy_forms",
+    "crispy_bootstrap5",
     "ckeditor",
     "django.contrib.sites",
     "django.contrib.humanize",
@@ -169,7 +170,8 @@ REST_FRAMEWORK = {
     ),
 }
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CKEDITOR_CONFIGS = {
     'default': {
