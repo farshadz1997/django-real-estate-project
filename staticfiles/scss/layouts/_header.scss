@@ -1,0 +1,65 @@
+
+// HEADER
+
+
+#aa-header {	
+	border-bottom: 1px solid #fff;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+	.aa-header-area{
+		display: inline;
+		padding: 5px 0;
+		float: left;
+		width: 100%;
+		.aa-header-left{
+			display: inline;
+			float: left;
+			width: 100%;
+			.aa-telephone-no{
+				color: #fff;
+				float: left;
+				font-size: 15px;
+				span{
+					margin-right: 5px;
+					.skype_c2c_logo_img{
+						display: none !important;
+					}
+				}
+				.skype_c2c_text_span{
+					color: #fff !important;
+				}
+			}
+			.aa-email{
+				color: #fff;
+				float: left;
+				letter-spacing: 0.5px;
+				margin-left: 20px;
+				font-size: 15px;
+				span{
+					margin-right: 5px;
+				}
+			}
+		}
+		.aa-header-right{
+			display: inline;
+			float: left;
+			width: 100%;
+			text-align: right;
+			.aa-register{
+				border-right: 1px solid #f8f8f8;
+				color: #fff;
+				margin-right: 5px;
+				padding-right: 10px;
+				font-size: 15px;
+			}
+			.aa-login{
+				color: #fff;
+				font-size: 15px;
+			}
+		}
+	}
+}

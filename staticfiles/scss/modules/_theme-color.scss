@@ -1,0 +1,594 @@
+
+// Theme color
+
+h2 {
+	color: $theme-color; 
+}
+.aa-primary-btn{
+	&:hover,
+	&:focus{
+		color: $theme-color;	
+		border-color: $theme-color;
+	}	
+}
+.aa-secondary-btn{
+	background-color: $theme-color;	
+}
+.aa-view-btn{
+	background-color: $theme-color;
+	&:hover,
+	&:focus{		
+		color: $theme-color;		
+	}
+}
+
+.scrollToTop {
+	background-color: $theme-color;
+	border: 2px solid $theme-color;
+}
+.scrollToTop:hover,
+.scrollToTop:focus{  
+  color: $theme-color;  
+}
+.pulse:before, .pulse:after {  
+  border: 5px solid $theme-color;  
+}
+
+#aa-menu-area{
+	.main-navbar{
+		.navbar-header{
+			.aa-logo{				
+				span{
+					color: $theme-color;
+				}
+			}
+		}
+		.navbar-nav{
+			li{
+				a{
+					&:hover,
+					&:focus{
+						color: $theme-color;
+					}
+				}				
+			}			
+			.active{
+				a{
+					color: $theme-color;
+				}
+			}
+			.open{
+				a{
+					color: $theme-color;
+				}
+			}
+			.dropdown-menu{
+				li{
+					a{
+						&:hover,
+						&:focus{							
+							color: $theme-color;
+						}
+					}
+				}
+			}
+		}				
+	}	
+}
+
+#aa-slider{	
+	.aa-slider-area{		
+		.aa-top-slider{						
+			.slick-prev,
+			.slick-next{  				
+				&:hover{
+					background-color: $theme-color;					
+				}
+			}
+			.aa-top-slider-price{
+				color: $theme-color;			
+			}
+			.aa-top-slider-btn{			
+				&:hover,
+				&:focus{
+					color: $theme-color;
+				}
+			}
+		}
+	}
+}
+#aa-advance-search{
+
+	.aa-advance-search-area{
+	
+		.aa-advance-search-top{
+		
+			.aa-single-advance-search{
+						
+				.aa-search-btn{
+					background-color: $theme-color;					
+				}
+			}				
+		}		
+	}
+}
+.aa-single-filter-search{				
+	.noUi-connect {
+	  background-color: $theme-color;				 		  	
+	}
+	.noUi-handle {
+	  background-color: $theme-color;								  
+	}
+}
+.aa-title{	
+	span{
+		background-color: $theme-color;		
+		&:before{
+			background-color: $theme-color;			
+		}
+		&:after{
+			background-color: $theme-color;			
+		}
+	}
+}
+
+.aa-properties-item{	
+	.for-sale{
+		background-color: $theme-color;
+	}							
+}
+#aa-service{
+	
+	.aa-service-area{
+	
+		.aa-service-content{
+	
+			.aa-single-service{				
+								
+				.aa-service-icon{
+					
+					span{
+						background-color: $theme-color;															
+					}
+				}
+				.aa-single-service-content{
+					h4{
+						a{						
+							&:hover{
+								color: $theme-color;
+							}
+						}
+					}					
+				}				
+			}
+		}
+	}
+}
+#aa-agents{	
+	.aa-agents-area{
+		.aa-agents-content{
+			.aa-agents-slider{								
+				li{
+					.aa-single-agents{				
+				
+						.aa-agetns-info{
+							background-color: $theme-color;																								
+							.aa-agent-social{					
+								a{									
+									&:hover,
+									&:focus{								
+										color: $theme-color;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#aa-client-testimonial{
+	.aa-client-testimonial-area{		
+		.aa-testimonial-content{			
+			.aa-testimonial-slider{	
+				li{
+					.aa-testimonial-single{						
+						
+						.aa-testimonial-info{
+							p{
+								&:before{
+									color: $theme-color;
+								}
+							}
+						}												
+					}					
+				}
+			}
+		}
+	}	
+
+}
+
+.aa-blog-single{
+	.aa-date-tag{
+		background-color: $theme-color;				
+	}
+	.aa-blog-single-content{
+		h3{
+			a{							
+				&:hover,
+				&:focus{
+					color: $theme-color;
+				}
+			}
+
+		}
+	}
+	.aa-blog-single-bottom{
+		.aa-blog-author{
+			&:hover,
+			&:focus{
+				color: $theme-color;
+			}
+		}
+		.aa-blog-comments{						
+			&:hover,
+			&:focus{
+				color: $theme-color;
+			}						
+		}
+	}
+}
+#aa-footer{
+	.aa-footer-area{
+		.aa-footer-left{
+			p{
+				a{
+					&:hover,
+					&:focus{
+						color: $theme-color;
+					}
+				}
+			}
+		}
+		.aa-footer-middle{			
+			a{
+				&:hover,
+				&:focus{
+					color: $theme-color;
+					border-color: $theme-color;
+				}
+			}
+		}
+		.aa-footer-right{
+			a{
+				&:hover,
+				&:focus{
+					color: $theme-color;
+				}
+			}
+		}
+	}	
+}
+#aa-property-header{	
+	.aa-property-header-inner{		
+		.breadcrumb{		
+			li.active{
+				color: $theme-color;
+			}
+		}
+	}	
+}
+#aa-properties{
+	.aa-properties-content{		
+		.aa-properties-content-head{	
+			
+			.aa-properties-content-head-right{				
+				a{
+					&:hover,
+					&:focus{
+						color: $theme-color;
+						border-color: $theme-color;
+					}
+				}				
+			}
+		}			
+	}
+	.aa-properties-sidebar{		
+		.aa-properties-single-sidebar{			
+			.aa-single-advance-search{				
+				.aa-search-btn{
+					background-color: $theme-color;					
+				}
+			}			
+			.media{				
+				.media-body{
+					h4{
+						a{
+							&:hover{
+								color: $theme-color;
+							}
+						}
+					}					
+				}
+			}
+		}
+	}
+}
+.aa-properties-content-bottom{
+	.pagination{
+		li{			
+			a{
+				&:hover,
+				&:focus{
+					background-color: $theme-color;							
+					border-color: $theme-color;
+				}
+			}					
+		}
+		.active{
+			a{
+				background-color: $theme-color;						
+			}
+		}
+	}			
+}
+.aa-properties-details{
+	.aa-properties-details-img{		
+		.slick-prev, .slick-next {
+		  background-color: $theme-color;		  		  
+		}		
+	}
+	.aa-properties-info{				
+		ul{			
+			li{				
+				&:before{
+					color: $theme-color;					
+				}
+			}
+		}
+		
+	}	
+}
+.aa-properties-social{		
+	ul{			
+		li{				
+			a{					
+				&:hover,
+				&:focus{
+					color: $theme-color;
+					border-color: $theme-color;
+				}
+			}
+		}
+	}
+}	
+
+#aa-blog{
+	.aa-blog-area{		
+		.aa-blog-sidebar{
+			.aa-blog-sidebar-single{
+				.aa-blog-search{
+					.aa-search-text{
+						&:focus{
+							border-color: $theme-color;
+						}
+					}
+					.aa-search-submit{						
+						&:hover,
+						&:focus{
+							color: $theme-color;
+						}
+					}
+				}
+				.aa-blog-catg{
+					li{
+						a{
+							&:hover,
+							&:focus{
+								color: $theme-color;
+							}
+						}						
+					}
+				}
+				.tag-cloud{
+					a{
+						&:hover,
+						&:focus{							
+							background-color: $theme-color;
+							border-color: $theme-color;
+						}
+					}
+				}
+				.aa-blog-recent-post{					
+					.media{
+						.media-body{
+							.media-heading{
+								a{					
+									&:hover,
+									&:focus{
+										color: $theme-color;
+									}
+								}
+							}
+						}
+					}
+				}			
+			}
+		}
+	}
+}
+.aa-blog-details{		
+	.aa-blog-single-content{
+		h1,
+		h3,
+		h4{
+			color: $theme-color;
+			font-weight: bold;
+		}
+	}
+}
+.aa-blog-navigation{
+	.aa-blog-pagination-left{				
+		.aa-prev{				
+			&:hover,
+			&:focus{
+				color: $theme-color;
+				border-color: $theme-color;
+			}
+		}		
+	}
+	.aa-blog-pagination-right{
+		.aa-next{			
+			&:hover,
+			&:focus{
+				color: $theme-color;
+				border-color: $theme-color;
+			}
+		}
+	}
+}
+.aa-comments-area{	
+	.comments{
+		.commentlist {
+			li {			  	
+				.reply-btn {
+					&:hover,
+					&:focus{
+						color: $theme-color;
+						border-color: $theme-color;						
+					}
+				}
+				.author-tag {
+					background-color: $theme-color;					
+				}				
+			}			
+		}					
+	}
+}
+#respond {		
+	input[type="text"],
+	input[type="email"],
+	input[type="url"] {		
+		&:focus{			
+			border: 1px solid $theme-color;
+		}
+	}
+
+	textarea {		
+	  	&:focus{
+			border: 1px solid $theme-color;
+		}
+	}	
+	.form-submit input:hover {	  
+	  color: $theme-color;  
+	  border-color: $theme-color;
+	}
+}
+
+#aa-contact{	
+	.aa-contact-area{									
+		.aa-contact-bottom{			
+			.aa-contact-form{												
+				input[type="text"],
+				input[type="email"],
+				input[type="url"] {
+					&:focus{			
+						border: 2px solid $theme-color;
+					}	
+				}
+				textarea {					
+				 	&:focus{
+						border: 2px solid $theme-color;
+					}	  	
+				}
+				.form-submit input {					
+					&:hover{						
+						color: $theme-color;
+	  					border: 2px solid $theme-color;
+					}
+				}	
+			}
+		}
+	}
+}
+
+#aa-error{
+	.aa-error-area{				
+		h2{
+			border: 3px solid $theme-color;							
+			&:before{
+				border: 3px solid $theme-color;				
+			}
+		}		
+		a{			
+			&:hover,
+			&:focus{
+				color: $theme-color;
+				border-color: $theme-color
+			}
+		}
+	}
+}
+
+#aa-gallery{	
+	.aa-gallery-area{		
+		.aa-gallery-content{			
+			.aa-gallery-top{
+				ul{
+					li{
+						&:hover,
+						&:focus{
+							background-color: $theme-color;							
+							border-color: $theme-color;
+						}
+					}
+					.active{
+						background-color: $theme-color;						
+						border-color: $theme-color;
+					}
+				}
+			}	
+			.aa-gallery-body{
+				.aa-single-gallery{
+					.aa-single-gallery-item{
+						.aa-single-gallery-info{
+							a{
+								&:hover,
+								&:focus{
+									
+									color: $theme-color;
+									border-color: $theme-color;
+								}
+							}							
+						}
+					}
+				}
+			}		
+		}		
+	}
+}
+#aa-signin{	
+	.aa-signin-area{
+		.aa-signin-form{
+			.aa-single-submit{
+				input[type="submit"] {
+					background-color: $theme-color;					
+					border: 2px solid $theme-color;
+					&:hover{
+						color: $theme-color;
+						border-color: $theme-color;						
+					}				
+				}				
+			}
+		}
+	}
+}
+
+.navbar-default .navbar-toggle {
+  border-color: $theme-color;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: $theme-color;
+}
