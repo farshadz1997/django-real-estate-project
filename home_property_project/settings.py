@@ -26,6 +26,7 @@ SECRET_KEY = "django-insecure-k+9qr&evs)gantx7iw!(n66#d^8m5s3sxakao18f7m7u*1o9pj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 ALLOWED_HOSTS = ['yaro.best', 'www.yaro.best', 'IP_ADDRESS', 'localhost', '127.0.0.1']
 
 # Application definition
