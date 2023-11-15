@@ -3,3 +3,6 @@ django-crispy-forms
 django-autoslug
 django-ckeditor
 django-debug-toolbar
+Pillow
+djangorestframework
+crispy-bootstrap4
