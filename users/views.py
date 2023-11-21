@@ -94,9 +94,11 @@ class PropertyCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CreatePropertyForm
     success_message = "Your property has been listed!"
 
-    def form_valid(self, form):
+    def form_valid(self, form: CreatePropertyForm):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        form.send_email(self.request.user.email)
+        return response
 
     def get_success_url(self):
         return reverse("users:profile", args=[self.request.user.username])

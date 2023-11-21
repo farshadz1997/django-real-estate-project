@@ -1,0 +1,3 @@
+{{title|safe}} has been added to the website for {{status|safe}} with the following details:
+
+{{details|safe}}

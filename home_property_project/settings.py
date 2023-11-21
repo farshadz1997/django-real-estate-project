@@ -35,9 +35,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "autoslug",
+    "crispy_bootstrap4",
     "crispy_forms",
     "ckeditor",
-    "django.contrib.sites",
     "django.contrib.humanize",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -130,8 +130,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Site id to use it in signals that we don't have access to request
-SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -155,8 +153,11 @@ EMAIL_BAKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER =  os.environ.get('DB_USER') # or email , For security add it to windows environment or env file
-EMAIL_HOST_PASSWORD = os.environ.get('DB_PASS') # password 
+DEFAULT_FROM_EMAIL = "homeproperty@mail.com"
+# EMAIL_HOST_USER =  os.environ.get('DB_USER') # or email , For security add it to windows environment or env file
+EMAIL_HOST_USER =  "test.django.projects111@gmail.com"
+# EMAIL_HOST_PASSWORD = os.environ.get('DB_PASS') # password 
+EMAIL_HOST_PASSWORD = "tlkkoiswsjwvytqn"
 
 # rest framework
 REST_FRAMEWORK = {

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Property, Category
+from users.tasks import send_create_property_email_task
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -56,6 +57,14 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
 
     def update(self, instance, **validated_data):
         return super().update(instance, validated_data)
+    
+    def send_email(self, email: str):
+        send_create_property_email_task.delay(
+            self.validated_data["title"],
+            self.validated_data["property_status"],
+            self.validated_data["description"],
+            [email],
+        )
 
     class Meta:
         model = Property

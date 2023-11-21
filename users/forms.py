@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm as PasswordResetFormCore
 from .models import Profile
 from property.models import Property
+from .tasks import send_create_property_email_task, send_password_reset_email_task
 
 
 class UserRegisterForm(UserCreationForm):
@@ -55,7 +57,42 @@ class CreatePropertyForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={"style": "resize:none;"}))
     state = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "e.g Califronia"}))
     city = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "e.g Los Angles"}))
+    
+    def send_email(self, email: str):
+        return send_create_property_email_task.delay(
+            self.cleaned_data["title"],
+            self.cleaned_data["property_status"],
+            self.cleaned_data["description"],
+            [email])
 
     class Meta:
         model = Property
         exclude = ["author", "views", "status"]
+
+
+class PasswordResetForm(PasswordResetFormCore):
+    email = forms.EmailField(max_length=254, widget=forms.EmailInput(
+        attrs={"autocomplete": "email"}
+    ))
+
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
+        """
+        This method is inherating Django's core `send_mail` method from `PasswordResetForm` class
+        """
+        context['user'] = context['user'].id
+        send_password_reset_email_task.delay(
+            subject_template_name=subject_template_name, 
+            email_template_name=email_template_name,
+            context=context,
+            from_email=from_email,
+            to_email=to_email,
+            html_email_template_name=html_email_template_name
+        )

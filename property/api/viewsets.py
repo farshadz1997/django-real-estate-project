@@ -54,6 +54,7 @@ class CreatePropertyAPI(APIView):
         serializer = PropertyDetailSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.create(**serializer.validated_data)
+        serializer.send_email(request.user.email)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
