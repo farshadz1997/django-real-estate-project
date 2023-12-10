@@ -61,7 +61,7 @@ class CreatePropertyForm(forms.ModelForm):
     def send_email(self, email: str):
         return send_create_property_email_task.delay(
             self.cleaned_data["title"],
-            self.cleaned_data["property_status"],
+            self.instance.get_property_status_display(),
             self.cleaned_data["description"],
             [email])
 
