@@ -61,9 +61,5 @@ class Category(models.Model):
     @classmethod
     def get_categories(cls):
         """Returns all categories titles for field choices used in serializers"""
-        categories = Category.objects.all().values_list("id", "title")
-        values = []
-        for category in categories:
-            values.append(category[1])
-        return values  
+        return [(category.id, category.title) for category in cls.objects.all()]
     
