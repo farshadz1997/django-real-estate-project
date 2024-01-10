@@ -12,8 +12,8 @@ logger = get_task_logger(__name__)
 
 @app.task(name="send_create_property_email_task")
 def send_create_property_email_task(title, status, description, receiver: Sequence[str] | None=None):
+    send_created_property_email(title, status, description, receiver)
     logger.info("Email sent")
-    return send_created_property_email(title, status, description, receiver)
 
 
 @app.task(name="password_reset_email_task")
