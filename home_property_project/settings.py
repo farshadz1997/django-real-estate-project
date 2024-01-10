@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-k+9qr&evs)gantx7iw!(n66#d^8m5s3sxakao18f7m7u*1o9pj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1 localhost").split(" ")
 
 
 # Application definition
@@ -91,9 +91,13 @@ WSGI_APPLICATION = "home_property_project.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("POSTGRES_DB", 'postgres'),
+        'USER': os.environ.get("POSTGRES_USER", 'postgres'),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'postgres'),
+        'HOST': 'pgdb',
+        'PORT': 5432,
     }
 }
 
@@ -150,14 +154,12 @@ LOGIN_REDIRECT_URL = "users:profile"
 LOGIN_URL = "users:login"
 
 EMAIL_BAKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_HOST= os.environ.get("EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "homeproperty@mail.com"
-# EMAIL_HOST_USER =  os.environ.get('DB_USER') # or email , For security add it to windows environment or env file
-EMAIL_HOST_USER =  "test.django.projects111@gmail.com"
-# EMAIL_HOST_PASSWORD = os.environ.get('DB_PASS') # password 
-EMAIL_HOST_PASSWORD = "tlkkoiswsjwvytqn"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "homeproperty@gmail.com")
+EMAIL_HOST_USER =  os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 # rest framework
 REST_FRAMEWORK = {
@@ -208,3 +210,7 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
     }
+
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", 'redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", 'redis://redis:6379/0')

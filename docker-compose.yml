@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  django:
+    build: .
+    container_name: django
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/django_real_estate
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      - pgdb
+      - redis
+  celery:
+    build: .
+    command: celery -A home_property_project worker -l info
+    volumes:
+      - .:/django_real_estate
+    depends_on:
+      - django
+      - redis
+  pgdb:
+    image: postgres:latest
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+volumes:
+  pgdata: 
+  redisdata: 
